@@ -1,6 +1,6 @@
 import AddPlayerForm from "./AddPlayerForm";
 
-function AddPlayer(tornament){
+function AddPlayer({tornament}){
 
     let Elemets =[];
 

@@ -28,7 +28,7 @@ function CreateTornamentModalBody({returnTournament}){
 
         let newTournament = new tournament(antalSpelare, antalMatcher);
 
-        console.log(newTournament);
+        console.log("Created new tornament: " + newTournament);
 
         return newTournament;
 
@@ -60,7 +60,7 @@ function CreateTornamentModalBody({returnTournament}){
                 </div>
                 <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => returnTournament(createTornement())}>Create tournament</button>
+                    <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => returnTournament(createTornement)}>Create tournament</button>
                 </div>
                 </div>
             </div>
