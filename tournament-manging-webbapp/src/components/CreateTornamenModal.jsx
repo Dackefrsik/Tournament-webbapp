@@ -1,8 +1,14 @@
 import { useRef } from "react";
 
+/**
+ * Funktion som skapar en modal med funktionalitete
+ * Den tar emot funktionen returnTournament för att kunna
+ * returnera den nya funktionen
+ */
 function CreateTornamentModalBody({returnTournament}){
     console.log("area hidden");
 
+    //Klass med en konstruktor som skapar ett objekt av turneringen 
     class tournament {
 
         constructor(antalDeltagare, antalMatcher){
@@ -12,11 +18,14 @@ function CreateTornamentModalBody({returnTournament}){
        
     } 
 
+    //useRef som tar emot värden för antalet spelare och matcher
     const antalSpelareRef = useRef(null);
     const antalMatcherRef = useRef(null);
 
+    //Anonym funktion som sparas i createTornamennt 
     const createTornement = () =>{
 
+        //Tar emot värden för spelare och matcher
         const antalSpelare = antalSpelareRef.current.value;
         const antalMatcher = antalMatcherRef.current.value;
 
@@ -24,12 +33,14 @@ function CreateTornamentModalBody({returnTournament}){
         console.log(antalMatcher);
 
         console.log("Antal spelare: " + antalSpelare);
-        console.log("Antal matcher´: " + antalMatcher);
+        console.log("Antal matcher: " + antalMatcher);
 
+        //Skapar en ny funktion utifrån konstrunktorn i klassen tournament
         let newTournament = new tournament(antalSpelare, antalMatcher);
 
         console.log("Created new tornament: " + newTournament);
 
+        //Returnerar den nya turneringen
         return newTournament;
 
     }
@@ -59,7 +70,8 @@ function CreateTornamentModalBody({returnTournament}){
                     </div>
                 </div>
                 <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>´
+                    {/*Knappen som returnerar den skapade funktionen till navbar modulen*/}
                     <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => returnTournament(createTornement)}>Create tournament</button>
                 </div>
                 </div>

@@ -6,19 +6,25 @@ import AddPlayer from './AddPlayer';
 
 function App() {
 
+  //useState för att kunna hämta den skapade tävlingen 
   const [tornament, setTournament] = useState(null);
 
+  //Funktion som hämntar den skapade turneringen 
   function getTournament(currentTornament){
 
+    //Sätter det inkommande värdet i Tornament i useState
     setTournament(currentTornament);
     console.log("tournament i main: ", tornament.antalDeltagare)
-    return tornament;
   }
   
-
+  //Returnerar alla kmomponenter som ska ingå i vår DOM
   return (
     <>
+      {/*Komponent för navbar som returnerar parametrarna för trävlingen*/}
       <Navbar getTournament={getTournament}/>
+
+      {/*Skriver ut modulen för att ange deltager med namn
+      En gång för varje spelare som angets när tävlingen satts upp*/ }
       {tornament != null && <AddPlayer tornament={tornament.antalDeltagare} /> }
     </>
   )
