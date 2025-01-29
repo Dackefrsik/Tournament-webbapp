@@ -16,6 +16,17 @@ function App() {
     setTournament(currentTornament);
     console.log("tournament i main: ", tornament.antalDeltagare)
   }
+
+  //Vektor som håller i alla spelarna
+  let players = [];
+
+  //Funktion som tar emot alla inmatad spelares namn
+  function returnPlayer(playeIn){
+    console.log("player Name: " + playeIn);
+    players.push(playeIn);
+
+    console.log("Alla tillagda spelare: " + players);
+}
   
   //Returnerar alla kmomponenter som ska ingå i vår DOM
   return (
@@ -25,7 +36,7 @@ function App() {
 
       {/*Skriver ut modulen för att ange deltager med namn
       En gång för varje spelare som angets när tävlingen satts upp*/ }
-      {tornament != null && <AddPlayer tornament={tornament.antalDeltagare} /> }
+      {tornament != null && <AddPlayer tornament={tornament.antalDeltagare} returnPlayer={returnPlayer} /> }
     </>
   )
 }

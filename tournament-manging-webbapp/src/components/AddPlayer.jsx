@@ -1,7 +1,7 @@
 import AddPlayerForm from "./AddPlayerForm";
 
 //Tar emot den skapade turneringen från App-jsx
-function AddPlayer({tornament}){
+function AddPlayer({tornament, returnPlayer}){
 
     //Vektor för att hålla i element för att lägga
     //till en spelare med
@@ -13,6 +13,11 @@ function AddPlayer({tornament}){
         const div = document.querySelectorAll(".addPlayer");
         div[i].style.display = "none"; 
     }
+
+    //Funktion som tar emot alla inmatad spelares namn
+    /* returnPlayer(playeIn){
+
+    } */
 
     //Loop för att bygga ett "kort" för varje 
     //delatagare som ska läggas till
@@ -26,10 +31,12 @@ function AddPlayer({tornament}){
                 </h3>
                 {/*Kallar på komponenten som visar ett 
                 formulär för att lägga till delatagare men namn*/}
-                <AddPlayerForm handleVisibility={handleVisibility} buttonID={i}/>
+                <AddPlayerForm handleVisibility={handleVisibility} buttonID={i} returnPlayer={returnPlayer}/>
             </div>
         )
     }
+
+   
 
     return(
         <>

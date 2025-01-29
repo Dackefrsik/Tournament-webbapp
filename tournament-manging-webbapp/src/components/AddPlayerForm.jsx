@@ -2,7 +2,7 @@
 import React, { useRef } from "react";
 /*Funktion som tar emot funktion för att ändra synlighet 
 och id vär at veta vilken div vars synlighet ska ändras*/
-function AddPlayerForm({handleVisibility, buttonID}){
+function AddPlayerForm({handleVisibility, buttonID, returnPlayer}){
     
     //Sätter en referens på ett element istället 
     // för att använda quewrySelect
@@ -13,8 +13,10 @@ function AddPlayerForm({handleVisibility, buttonID}){
     const handleClick = (event) => {
         event.preventDefault();
 
+        //Skickar spelarens namn till baka till main
         //Tar bort div:n med formuläret i om det har text i sig
         if(inputNameRef.current && inputNameRef.current.value.trim() !== ""){
+            returnPlayer(inputNameRef.current.value)
             handleVisibility(buttonID);
         }
         else{
