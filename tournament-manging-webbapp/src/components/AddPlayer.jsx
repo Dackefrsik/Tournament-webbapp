@@ -30,7 +30,7 @@ function AddPlayer({tornament, returnPlayer}){
                     Player {i + 1}
                 </h3>
                 {/*Kallar på komponenten som visar ett 
-                formulär för att lägga till delatagare men namn*/}
+                formulär för att lägga till delatagare med namn*/}
                 <AddPlayerForm handleVisibility={handleVisibility} buttonID={i} returnPlayer={returnPlayer}/>
             </div>
         )
