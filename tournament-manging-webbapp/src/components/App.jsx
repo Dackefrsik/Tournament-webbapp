@@ -1,5 +1,5 @@
 //import { useState } from 'react'
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Navbar from './Navbar'
 import AddPlayer from './AddPlayer';
 import Table from './Table.jsx';
@@ -18,10 +18,8 @@ function App() {
     console.log("tournament i main: ", tornament.antalDeltagare)
   }
 
+  //Use state som innehåller alla spelar namn 
   const [players, setPlayers] = useState([]);
-
- /*  //Vektor som håller i alla spelarna
-  let players = []; */
 
   //Funktion som tar emot alla inmatad spelares namn
   function returnPlayer(playeIn){
@@ -31,8 +29,7 @@ function App() {
    setPlayers(prevIn => [...prevIn, playeIn]);
 
     console.log("Alla tillagda spelare: " + players);
-  }
-  
+  }  
   //Returnerar alla kmomponenter som ska ingå i vår DOM
   return (
     <>
@@ -43,7 +40,8 @@ function App() {
       En gång för varje spelare som angets när tävlingen satts upp*/ }
       {tornament != null && <AddPlayer tornament={tornament.antalDeltagare} returnPlayer={returnPlayer} /> }
     
-      {players.length > 2 && <Table players={players}/>}
+      {/*Kollar om alla spelare är inmatade och visar tabellen med spelare*/}
+      {(players != null && tornament != null && players.length == tornament.antalDeltagare) && <Table players={players}/>}
     </>
   )
 }
