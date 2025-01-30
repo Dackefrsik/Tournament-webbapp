@@ -5,6 +5,51 @@ import AddPlayer from './AddPlayer';
 import Table from './Table.jsx';
 //import './App.css'
 
+//#region klass för spelare
+class Player{
+
+  constructor(name, points = 1, games = 0, goalDif = 0){
+    this.name = name;
+    this.points = points;
+    this.games = games;
+    this. goalDif = goalDif;
+  }
+
+  getName(){
+    return this.name;
+  }
+
+  setPoint(points){
+    this.points += points;
+  }
+
+  getPoints(){
+    return this.points;
+  }
+
+  setGames(games){
+    this.games = games;
+  }
+
+  getGames(){
+    return this.games;
+  }
+
+  addGoalDif(goalDif){
+    this.goalDif += goalDif;
+  }
+
+  reduceGoalDif(goalDif){
+    this.goalDif -= goalDif;
+  }
+
+  getGoalDif(){
+    return this.goalDif;
+  }
+
+}
+//#endregion
+
 function App() {
 
   //useState för att kunna hämta den skapade tävlingen 
@@ -24,12 +69,12 @@ function App() {
   //Funktion som tar emot alla inmatad spelares namn
   function returnPlayer(playeIn){
     console.log("player Name: " + playeIn);
-   /*  players.push(playeIn); */
+    let newPlayer = new Player(playeIn);
 
-   setPlayers(prevIn => [...prevIn, playeIn]);
+   setPlayers(prevIn => [...prevIn, newPlayer]);
+  }
 
-    console.log("Alla tillagda spelare: " + players);
-  }  
+
   //Returnerar alla kmomponenter som ska ingå i vår DOM
   return (
     <>

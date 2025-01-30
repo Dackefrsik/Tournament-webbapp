@@ -14,11 +14,6 @@ function AddPlayer({tornament, returnPlayer}){
         div[i].style.display = "none"; 
     }
 
-    //Funktion som tar emot alla inmatad spelares namn
-    /* returnPlayer(playeIn){
-
-    } */
-
     //Loop för att bygga ett "kort" för varje 
     //delatagare som ska läggas till
     for(let i = 0; i < tornament; i++){

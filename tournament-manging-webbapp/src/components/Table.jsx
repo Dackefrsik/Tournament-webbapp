@@ -12,7 +12,7 @@ function Table({players}) {
     for(let i = 0; i < players.length; i++){
 
         //Skapar en ny rad utifrån komponenten AddPlayerTpTable
-        let playerRow = <AddPlayerToTable i={i} name={players[i]}/>
+        let playerRow = <AddPlayerToTable i={i} player={players[i]}/>
 
         //Pushar raden till playerRows
         playerRows.push(playerRow);
