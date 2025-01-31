@@ -8,7 +8,7 @@ import Table from './Table.jsx';
 //#region klass för spelare
 class Player{
 
-  constructor(name, points = 1, games = 0, goalDif = 0){
+  constructor(name, points = 0, games = 0, goalDif = 0){
     this.name = name;
     this.points = points;
     this.games = games;
@@ -19,16 +19,16 @@ class Player{
     return this.name;
   }
 
-  setPoint(points){
-    this.points += points;
+  incrementPoint(){
+    return  new Player(this.name, this.points + 3, this.games, this.goalDif);
   }
 
   getPoints(){
     return this.points;
   }
 
-  setGames(games){
-    this.games = games;
+  incrementGames(){
+  return  new Player(this.name, this.points, this.games + 1, this.goalDif);
   }
 
   getGames(){
@@ -36,19 +36,40 @@ class Player{
   }
 
   addGoalDif(goalDif){
-    this.goalDif += goalDif;
+    return  new Player(this.name, this.points, this.games, this.goalDif + goalDif);
+
   }
 
   reduceGoalDif(goalDif){
-    this.goalDif -= goalDif;
+    return  new Player(this.name, this.points, this.games, this.goalDif - goalDif);
   }
 
   getGoalDif(){
     return this.goalDif;
   }
-
+   
 }
 //#endregion
+
+//#region klass för varje match
+class match{
+  constructor(home, away, homeGoal, awayGoal){
+    this.home = home;
+    this.away = away;
+    this.homeGoal = homeGoal;
+    this.awayGoal = awayGoal;
+  }
+
+  getHome(){
+    return this.home;
+  }
+
+  getAway(){
+    return this.away;
+  }
+}
+//#endregion
+
 
 function App() {
 
@@ -74,7 +95,62 @@ function App() {
    setPlayers(prevIn => [...prevIn, newPlayer]);
   }
 
+  //Testfunktion
+  function addGamesToOne(){
+   setPlayers(prevPlayers => prevPlayers.map(player => 
+    player.getName() == "Daniel" ?  player.incrementGames() : player
 
+    )
+  )
+  }
+
+  //Usestate för matcher
+  const [matches, setMatch] = useState([]);
+
+  //Funktion för att registrera matcher
+  function Match(){
+
+    let matchCheck = true;
+
+    matches.forEach(sinelMatch => {
+      if(sinelMatch.getHome() == "Daniel" && sinelMatch.getAway() == "Erik"){
+        console.log("Matchen har redan spelats");
+        matchCheck = false;
+      }
+    })
+    let newMatch;
+
+    if(matchCheck){
+      newMatch = new match("Daniel", "Erik", 3, 2);
+    }
+
+    if(matchCheck){
+      setMatch(prevMatches => [...prevMatches, newMatch]);
+
+      setPlayers(players => players.map(player => {
+        console.log("match");
+  
+          if(player.name == newMatch.getHome()){
+            console.log("home")
+            if(newMatch.homeGoal > newMatch.awayGoal){
+              console.log("bigger");
+              return player.incrementPoint().incrementGames().addGoalDif(newMatch.homeGoal - newMatch.awayGoal);;
+            }
+          }
+          else if(player.name == newMatch.getAway()){
+            if(newMatch.homeGoal > newMatch.awayGoal){
+              return player.incrementGames().reduceGoalDif(newMatch.homeGoal - newMatch.awayGoal);
+            }
+          }
+        return player;
+        }
+      )
+    )
+    }
+    
+    
+  }
+ 
   //Returnerar alla kmomponenter som ska ingå i vår DOM
   return (
     <>
@@ -86,9 +162,12 @@ function App() {
       {tornament != null && <AddPlayer tornament={tornament.antalDeltagare} returnPlayer={returnPlayer} /> }
     
       {/*Kollar om alla spelare är inmatade och visar tabellen med spelare*/}
-      {(players != null && tornament != null && players.length == tornament.antalDeltagare) && <Table players={players}/>}
-    </>
+      {(players != null && tornament != null && players.length == tornament.antalDeltagare) && <Table players={[...players].sort((a,b) => b.getPoints() -a.getPoints())}/>}
+    
+        <button onClick={() => Match()}>Add playerMatches</button>
+    
+    </>   
   )
 }
 
-export default App
+export default App  
