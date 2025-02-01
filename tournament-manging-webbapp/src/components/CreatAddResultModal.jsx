@@ -76,9 +76,6 @@ function CreateAddResultModal({setPlayers}){
         }
     }     
         
-    
-
-
     return (
         <>
         <div className="modal fade" id="ModalAddResult" tabIndex="-1" aria-hidden="true">
@@ -93,19 +90,19 @@ function CreateAddResultModal({setPlayers}){
                             <form action="" className="form-group">
                                 <div className="d-flex flex-column">
                                     <div className="form-floating">
-                                        <input type="text" name="Home" className="mb-2 form-control" id="antalDeltagare" placeholder="Antal deltagare" min="2" ref={homeRef} />
+                                        <input type="text" name="Home" className="mb-2 form-control" id="antalDeltagare"  ref={homeRef} />
                                         <label htmlFor="Home">Hemma</label>
                                     </div>
                                     <div className="form-floating">
-                                        <input type="number" name="HomeGoal" className="form-control" id="antalMatcher" placeholder="Antal matcher" min="1" ref={homeGoalRef} />
+                                        <input type="number" name="HomeGoal" className="form-control" id="antalMatcher" min="0" ref={homeGoalRef} />
                                         <label htmlFor="HomeGoal">Antal mål hemma</label>
                                     </div>
                                     <div className="form-floating">
-                                        <input type="text" name="Away" className="mb-2 form-control" id="antalDeltagare" placeholder="Antal deltagare" min="2" ref={awayRef} />
+                                        <input type="text" name="Away" className="mb-2 form-control" id="antalDeltagare" ref={awayRef} />
                                         <label htmlFor="antalDeltagare">Borta</label>
                                     </div>
                                     <div className="form-floating">
-                                        <input type="number" name="AwayGoal" className="form-control" id="antalMatcher" placeholder="Antal matcher" min="1" ref={awayGoalRef} />
+                                        <input type="number" name="AwayGoal" className="form-control" id="antalMatcher" min="0" ref={awayGoalRef} />
                                         <label htmlFor="AwayGoal">Antal mål borta</label>
                                     </div> 
                                 </div>
