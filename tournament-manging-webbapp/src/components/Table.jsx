@@ -1,25 +1,25 @@
 import AddPlayerToTable from "./AddPlayerToTable"
-
+import PropTypes from "prop-types";
 //Funktion för komponent som tar emot alla spelare
 //och returnerar en tabell över turneringen
-function Table({players}) {
+function Table({ players }) {
 
     //Vektor som håller i alla raderna för
     //respektive spelare
     let playerRows = [];
 
     //for-loop som går igenom alla spelare och skapar rader för dem
-    for(let i = 0; i < players.length; i++){
+    for (let i = 0; i < players.length; i++) {
 
         //Skapar en ny rad utifrån komponenten AddPlayerTpTable
-        let playerRow = <AddPlayerToTable i={i} player={players[i]}/>
+        let playerRow = <AddPlayerToTable i={i} player={players[i]} />
 
         //Pushar raden till playerRows
         playerRows.push(playerRow);
 
     }
 
-    return(
+    return (
         <div className="container d-flex justify-content-center mt-3">
             <table className="table table-bordered" >
                 <thead>
@@ -38,6 +38,11 @@ function Table({players}) {
             </table>
         </div>
     )
+}
+
+//Validerar mina props
+Table.propTypes = {
+    players : PropTypes.object.isRequired
 }
 
 export default Table
