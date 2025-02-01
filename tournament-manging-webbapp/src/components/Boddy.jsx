@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import AddPlayer from './AddPlayer';
 import Table from './Table.jsx';
 import PropTypes from 'prop-types';
@@ -49,39 +48,16 @@ class Player {
 }
 //#endregion
 
-//#region klass för varje match
-class match {
-    constructor(home, away, homeGoal, awayGoal) {
-        this.home = home;
-        this.away = away;
-        this.homeGoal = homeGoal;
-        this.awayGoal = awayGoal;
-    }
-
-    getHome() {
-        return this.home;
-    }
-
-    getAway() {
-        return this.away;
-    }
-}
-//#endregion
-
 //Funktion som hanterar applikationens body tar emto den skapade truneringen
-function Body({ tornament }) {
-
-    console.log(tornament)
-
-    //Use state som innehåller alla spelar namn 
-    const [players, setPlayers] = useState([]);
+function Body({ tornament, setPlayers, players }) {
 
     //Funktion som tar emot alla inmatad spelares namn
     function returnPlayer(playeIn) {
-        console.log("player Name: " + playeIn);
         let newPlayer = new Player(playeIn);
 
         setPlayers(prevIn => [...prevIn, newPlayer]);
+
+        
     }
 
     //Testfunktion
@@ -93,50 +69,7 @@ function Body({ tornament }) {
         )
     } */
 
-    //Usestate för matcher
-    const [matches, setMatch] = useState([]);
-
-    //Funktion för att registrera matcher
-    function Match() {
-
-        //Variabel för att kolla om vald match har spelats eller ej
-        let matchCheck = true;
-
-        //Testloop som loggar i consolen om matchen redan har spelats
-        matches.forEach(sinelMatch => {
-            if (sinelMatch.getHome() == "Daniel" && sinelMatch.getAway() == "Erik") {
-                console.log("Matchen har redan spelats");
-                matchCheck = false;
-            }
-        })
-        let newMatch;
-
-        if (matchCheck) {
-            newMatch = new match("Daniel", "Erik", 3, 2);
-
-            setMatch(prevMatches => [...prevMatches, newMatch]);
-
-            setPlayers(players => players.map(player => {
-                console.log("match");
-
-                if (player.name == newMatch.getHome()) {
-                    console.log("home")
-                    if (newMatch.homeGoal > newMatch.awayGoal) {
-                        console.log("bigger");
-                        return player.incrementPoint().incrementGames().addGoalDif(newMatch.homeGoal - newMatch.awayGoal);;
-                    }
-                }
-                else if (player.name == newMatch.getAway()) {
-                    if (newMatch.homeGoal > newMatch.awayGoal) {
-                        return player.incrementGames().reduceGoalDif(newMatch.homeGoal - newMatch.awayGoal);
-                    }
-                }
-                return player;
-            }
-            )
-            )
-        }
-    }
+    
 
     return (
         <>
@@ -147,7 +80,7 @@ function Body({ tornament }) {
             {/*Kollar om alla spelare är inmatade och visar tabellen med spelare*/}
             {(players != null && tornament != null && players.length == tornament.antalDeltagare) && <Table players={[...players].sort((a, b) => b.getPoints() - a.getPoints())} />}
 
-            <button onClick={() => Match()}>Add playerMatches</button>
+{/*             <button onClick={() => Match()}>Add playerMatches</button> */}
         </>
 
     )
@@ -155,7 +88,11 @@ function Body({ tornament }) {
 
 //Validerar mina props
 Body.propTypes ={
-    tornament : PropTypes.object.isRequired
+    tornament : PropTypes.object.isRequired,
+    setPlayers : PropTypes.func.isRequired,
+    players : PropTypes.arrayOf(
+        PropTypes.object.isRequired
+    )
 }
 
 export default Body

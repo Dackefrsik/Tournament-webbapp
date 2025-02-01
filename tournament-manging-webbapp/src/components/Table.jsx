@@ -23,7 +23,7 @@ function Table({ players }) {
         <div className="container d-flex justify-content-center mt-3">
             <table className="table table-bordered" >
                 <thead>
-                    <tr>
+                    <tr key={0}>
                         <th scope="col" className="text-center w-20" >Place</th>
                         <th scope="col" className="text-center w-5">Name</th>
                         <th scope="col" className="text-center w-20">Points</th>

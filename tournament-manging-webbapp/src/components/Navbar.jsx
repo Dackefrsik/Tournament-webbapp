@@ -1,24 +1,32 @@
 import CreateTornamentModal from "./CreateTornamenModal";
-import { useRef } from "react";
+import {useState } from "react";
 import PropTypes from "prop-types";
+import CreateAddResultModal from "./CreatAddResultModal";
 
 //Funktion för navbar, den tar emot funktionen som skickas till den som props
-function Navbar({ getTournament }) {
+function Navbar({ setTornament, players, setPlayers}) {
 
-    //useRef där man kan spara turneringen som skapas i CreateTournamentModalBody
-    const tournament = useRef(null);
+   /*  //useRef där man kan spara turneringen som skapas i CreateTournamentModalBody
+    const tournament = useRef(null); */
+
+    const [antalDeltagare, setDeltagare] = useState(null)
 
     //Funktion som skickas till CreateTournamentModalBody för att kunna spara den
     //skapade turneringen 
     function returnTournament(newTournament) {
-        //Sparar turneringen i tournament
-        tournament.current = newTournament;
 
-        console.log("Saved tournament: ", tournament.current);
+        setDeltagare(newTournament.antalDeltagare)
 
         //Returnerar turneringen 
-        getTournament(tournament.current);
+        setTornament(newTournament);
     }
+
+    console.log("Antal ", antalDeltagare);
+
+    /* //Funktion för att returnerar ett resultat
+    function returnResult(newResult){
+        
+    } */
 
     return (
         <>
@@ -33,9 +41,10 @@ function Navbar({ getTournament }) {
                                 <li className="nav-item mt-2 me-1 ms-auto">
                                     <div id="createTournament" type="button" className="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#ModalCreateTournament">Create new tournament</div>
                                 </li>
+                                {(antalDeltagare != null  &&  antalDeltagare == players.length) && 
                                 <li className="navbar-item mt-2 me-1 ms-auto">
-                                    <div className="btn bg-primary text-white">Manage tournament</div>
-                                </li>
+                                    <div className="btn bg-primary text-white" type="button" data-bs-toggle="modal" data-bs-target="#ModalAddResult">Add reasult</div>
+                                </li>}
                             </ul>
                         </div>
                     </div>
@@ -44,13 +53,19 @@ function Navbar({ getTournament }) {
             {/*Kallar på CreateTornamentModalBody när användaren klickar på knappen Create tournament
             tar emot funktionen returnTornament för att kunna returnera resultatet från modalen */}
             <CreateTornamentModal returnTournament={returnTournament} />
+
+            <CreateAddResultModal players={players} setPlayers={setPlayers}/> 
         </>
     );
 }
 
 //Validerar mina props
 Navbar.propTypes = {
-    getTournament : PropTypes.object.isRequired
+    setTornament : PropTypes.func.isRequired,
+    players : PropTypes.arrayOf(
+            PropTypes.object.isRequired
+        ).isRequired,
+    setPlayers : PropTypes.func.isRequired
 }
 
 export default Navbar;

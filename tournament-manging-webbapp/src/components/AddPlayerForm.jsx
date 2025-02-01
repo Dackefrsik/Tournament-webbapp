@@ -54,7 +54,7 @@ function AddPlayerForm({ handleVisibility, buttonID, returnPlayer }) {
 AddPlayerForm.propTypes = {
     handleVisibility : PropTypes.func.isRequired, 
     buttonID : PropTypes.number.isRequired, 
-    returnPlayer : PropTypes.number.isRequired
+    returnPlayer : PropTypes.func.isRequired
 }
 
 export default AddPlayerForm;
