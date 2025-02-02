@@ -6,16 +6,17 @@
     --Dark : #212529;
 }
 
-
+/*#region Body*/
 *{
-    margin: 0px;
-    padding: 0px;
+    margin: 0px ;
+    padding: 0px ;
 }
 
 /*Bakgrundsfärg för body*/
 body{
     background-color: var(--Light);
 }
+/*#endregion*/
 
 /*#region Navbar*/
 /*Sätter backgrundsfärg för navbar*/
@@ -28,7 +29,7 @@ nav{
 /*Sätter färger på knappar*/
 .buttonColor, .buttonColor:hover{
     background-color: var(--Secondary);
-    border-radius: 0.25rem;
+    border-radius: 0.4rem;
     color: var(--Light);
     font-size: 1.15rem;
 }
