@@ -41,7 +41,7 @@ function CreateTornamentModalBody({ returnTournament }) {
         <div className="modal fade" id="ModalCreateTournament" tabIndex="-1" aria-hidden="true">
             <div className="modal-dialog">
                 <div className="modal-content">
-                    <div className="modal-header bg-primary">
+                    <div className="modal-header">
                         <h1 className="modal-title fs-5 text-white" id="exampleModalLabel">Create tornament</h1>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -62,9 +62,9 @@ function CreateTornamentModalBody({ returnTournament }) {
                         </div>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" className="btn buttonCloseColor" data-bs-dismiss="modal">Close</button>
                         {/*Knappen som returnerar den skapade funktionen till navbar modulen*/}
-                        <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => returnTournament(createTornement())}>Create tournament</button>
+                        <button type="button" className="btn buttonColor" data-bs-dismiss="modal" onClick={() => returnTournament(createTornement())}>Create tournament</button>
                     </div>
                 </div>
             </div>

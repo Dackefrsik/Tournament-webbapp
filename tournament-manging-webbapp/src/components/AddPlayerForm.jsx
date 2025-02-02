@@ -32,7 +32,7 @@ function AddPlayerForm({ handleVisibility, buttonID, returnPlayer }) {
     }
 
     return (
-        <form action="" className="form-group" >
+        <form action="" className="form-group " >
             <div className="d-flex flex-column">
                 <div className="row">
                     <div className="col-9">
@@ -42,7 +42,7 @@ function AddPlayerForm({ handleVisibility, buttonID, returnPlayer }) {
                         </div>
                     </div>
                     <div className="col-3 d-flex">
-                        <input type="submit" value="Add" className="mb-2 form-control btn btn-success btn-lg p-2" onClick={handleClick} />
+                        <input type="submit" value="Add" className="mb-2 form-control btn buttonColor btn-lg p-2" onClick={handleClick} />
                     </div>
                 </div>
             </div>

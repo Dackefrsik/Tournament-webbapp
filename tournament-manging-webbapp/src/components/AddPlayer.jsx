@@ -21,7 +21,7 @@ function AddPlayer({ tornament, returnPlayer }) {
 
         //Puschar det till vektorn Elements 
         Elemets.push(
-            <div className="addPlayer border p-2 m-1 rounded-3">
+            <div className="addPlayer p-2 m-1 rounded-3 addPlayerCard">
                 <h3 className="mt-2 ms-2">
                     Player {i + 1}
                 </h3>

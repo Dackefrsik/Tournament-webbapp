@@ -30,7 +30,7 @@ function Navbar({ setTornament, players, setPlayers}) {
 
     return (
         <>
-            <div className="container bg-success-subtle">
+            <div className="container-fluid ">
                 <nav className="navbar navbar-expand-lg ">
                     <div className="container">
                         <button className="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,11 +39,11 @@ function Navbar({ setTornament, players, setPlayers}) {
                         <div className="collapse navbar-collapse" id="navbarNav">
                             <ul className="navbar-nav">
                                 <li className="nav-item mt-2 me-1 ms-auto">
-                                    <div id="createTournament" type="button" className="btn bg-primary text-white" data-bs-toggle="modal" data-bs-target="#ModalCreateTournament">Create new tournament</div>
+                                    <div id="createTournament" type="button" className="btn buttonColor" data-bs-toggle="modal" data-bs-target="#ModalCreateTournament">Create new tournament</div>
                                 </li>
                                 {(antalDeltagare != null  &&  antalDeltagare == players.length) && 
                                 <li className="navbar-item mt-2 me-1 ms-auto">
-                                    <div className="btn bg-primary text-white" type="button" data-bs-toggle="modal" data-bs-target="#ModalAddResult">Add reasult</div>
+                                    <div className="btn buttonColor" type="button" data-bs-toggle="modal" data-bs-target="#ModalAddResult">Add reasult</div>
                                 </li>}
                             </ul>
                         </div>

@@ -1,0 +1,64 @@
+/*Variabler för färgerna*/
+:root{
+    --Primary : #007BFF;
+    --Secondary : #FF7300;
+    --Light : #F8F9FA;
+    --Dark : #212529;
+}
+
+
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+/*Bakgrundsfärg för body*/
+body{
+    background-color: var(--Light);
+}
+
+/*#region Navbar*/
+/*Sätter backgrundsfärg för navbar*/
+nav{
+    background-color: var(--Primary);
+}
+/*#endregion*/
+
+/*#region knappar*/
+/*Sätter färger på knappar*/
+.buttonColor, .buttonColor:hover{
+    background-color: var(--Secondary);
+    border-radius: 0.25rem;
+    color: var(--Light);
+    font-size: 1.15rem;
+}
+
+/*Sätter färger på knapparna som stänger ner modals*/
+.buttonCloseColor, .buttonCloseColor:hover{
+    background-color: var(--Dark);
+    border-radius: 0.25;
+    color: var(--Light);
+    font-size: 1.15rem;
+}
+/*#endregion*/
+
+/*#region modal*/
+/*Stylar headern i modal*/
+.modal-header{
+    background-color: var(--Primary);
+    color: var(--Light);
+}
+
+/*Sätter backgrundsfärg på resterande modal*/
+.modal-body, .modal-footer{
+    background-color: var(--Light);
+}
+/*#endregion*/
+
+/*#region addPlayerCard*/
+/*Sätter bakgrund på "korten" där man anger nya spelare*/
+.addPlayerCard{
+    background-color: var(--Light);
+    border: 3px solid var(--Dark);
+}
+/*#endregion*/
