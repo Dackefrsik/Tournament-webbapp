@@ -208,6 +208,7 @@ function CreateAddResultModal({setPlayers}){
     )
 }
 
+//Validerar mina props
 CreateAddResultModal.propTypes = {
     setPlayers : PropTypes.func.isRequired
 }

@@ -8,15 +8,14 @@ function AddPlayer({ tornament, returnPlayer }) {
     //till en spelare med
     let Elemets = [];
 
-    //Funktion som kollar vilken kanpp i formuläret
-    //Tryckts på för att sedan ta bort den
+    //#region Funktion som hanterar synlighet av formuläret för att addera spelare
     function handleVisibility(i) {
         const div = document.querySelectorAll(".addPlayer");
         div[i].style.display = "none";
     }
+    //#endregion
 
-    //Loop för att bygga ett "kort" för varje 
-    //delatagare som ska läggas till
+    //#region Loop för att bygga ett "kort" för varje delatagare som ska läggas till
     for (let i = 0; i < tornament; i++) {
 
         //Puschar det till vektorn Elements 
@@ -31,6 +30,7 @@ function AddPlayer({ tornament, returnPlayer }) {
             </div>
         )
     }
+    //#endregion
 
     return (
         <>

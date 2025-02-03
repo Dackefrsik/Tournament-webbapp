@@ -9,8 +9,7 @@ function AddPlayerForm({ handleVisibility, buttonID, returnPlayer }) {
     // för att använda quewrySelect
     const inputNameRef = useRef(null);
 
-    //Funktion som hanterar klickevent på knappen för att
-    //lägga till spelare
+    //#region Funktion som hanterar addering av spelare
     const handleClick = (event) => {
         event.preventDefault();
 
@@ -25,11 +24,13 @@ function AddPlayerForm({ handleVisibility, buttonID, returnPlayer }) {
             inputNameRef.current.style.border = "3px solid red";
         }
     }
+    //#endregion
 
-    //Funktion som tar bort den röda ramen på input rutan
+    //#region Funktion som tar bort den röda ramen på input rutan
     function inputFocus() {
         inputNameRef.current.style.border = "";
     }
+    //#endregion
 
     return (
         <form action="" className="form-group " >

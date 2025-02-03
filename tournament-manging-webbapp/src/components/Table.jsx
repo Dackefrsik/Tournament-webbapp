@@ -8,7 +8,7 @@ function Table({ players }) {
     //respektive spelare
     let playerRows = [];
 
-    //for-loop som går igenom alla spelare och skapar rader för dem
+    //#region for-loop som går igenom alla spelare och skapar rader för dem
     for (let i = 0; i < players.length; i++) {
 
         //Skapar en ny rad utifrån komponenten AddPlayerTpTable
@@ -18,6 +18,7 @@ function Table({ players }) {
         playerRows.push(playerRow);
 
     }
+    //#endregion
 
     return (
         <div className="container d-flex justify-content-center mt-3">

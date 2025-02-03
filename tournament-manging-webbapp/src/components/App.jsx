@@ -1,22 +1,25 @@
-//import { useState } from 'react'
 import { useState } from 'react';
 import Navbar from './Navbar'
 import Body from './Boddy';
 
 function App() {
 
+  //#region useState
   //useState för att kunna hämta den skapade tävlingen 
   const [tornament, setTournament] = useState(null);
 
+  //Usestate för spelare
   const [players, setPlayers] = useState([]);
+  //#endregion
 
-  //Funktion som hämntar den skapade turneringen 
+  //#region Funktion som hämntar den skapade turneringen 
   function getTournament(currentTornament) {
 
     //Sätter det inkommande värdet i Tornament i useState
     setTournament(currentTornament);
 
   }
+  //#endregion
 
   //Returnerar alla kmomponenter som ska ingå i vår DOM
   return (

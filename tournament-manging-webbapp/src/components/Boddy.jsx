@@ -55,25 +55,13 @@ class Player {
 //Funktion som hanterar applikationens body tar emto den skapade truneringen
 function Body({ tornament, setPlayers, players }) {
 
-    //Funktion som tar emot alla inmatad spelares namn
+    //#region Funktion som tar emot alla inmatad spelares namn
     function returnPlayer(playeIn) {
         let newPlayer = new Player(playeIn);
 
-        setPlayers(prevIn => [...prevIn, newPlayer]);
-
-        
+        setPlayers(prevIn => [...prevIn, newPlayer]);        
     }
-
-    //Testfunktion
-    /* function addGamesToOne() {
-        setPlayers(prevPlayers => prevPlayers.map(player =>
-            player.getName() == "Daniel" ? player.incrementGames() : player
-
-        )
-        )
-    } */
-
-    
+    //#endregion
 
     return (
         <>
@@ -84,7 +72,6 @@ function Body({ tornament, setPlayers, players }) {
             {/*Kollar om alla spelare är inmatade och visar tabellen med spelare*/}
             {(players != null && tornament != null && players.length == tornament.antalDeltagare) && <Table players={[...players].sort((a, b) => b.getPoints() - a.getPoints())} />}
 
-{/*             <button onClick={() => Match()}>Add playerMatches</button> */}
         </>
 
     )

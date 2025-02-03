@@ -6,13 +6,9 @@ import CreateAddResultModal from "./CreatAddResultModal";
 //Funktion för navbar, den tar emot funktionen som skickas till den som props
 function Navbar({ setTornament, players, setPlayers}) {
 
-   /*  //useRef där man kan spara turneringen som skapas i CreateTournamentModalBody
-    const tournament = useRef(null); */
-
     const [antalDeltagare, setDeltagare] = useState(null)
 
-    //Funktion som skickas till CreateTournamentModalBody för att kunna spara den
-    //skapade turneringen 
+    //#region Funktion för att kunna spara den skapade turneringen 
     function returnTournament(newTournament) {
 
         setDeltagare(newTournament.antalDeltagare)
@@ -20,13 +16,7 @@ function Navbar({ setTornament, players, setPlayers}) {
         //Returnerar turneringen 
         setTornament(newTournament);
     }
-
-    console.log("Antal ", antalDeltagare);
-
-    /* //Funktion för att returnerar ett resultat
-    function returnResult(newResult){
-        
-    } */
+    //#endregion
 
     return (
         <>
@@ -51,7 +41,9 @@ function Navbar({ setTornament, players, setPlayers}) {
             {/*Kallar på CreateTornamentModalBody när användaren klickar på knappen Create tournament
             tar emot funktionen returnTornament för att kunna returnera resultatet från modalen */}
             <CreateTornamentModal returnTournament={returnTournament} />
-
+            
+            {/*Modal för att lägga till resultat, går först att visa när alla spelare 
+            är angivna med namn*/}
             <CreateAddResultModal players={players} setPlayers={setPlayers}/> 
         </>
     );
