@@ -1,5 +1,5 @@
 import PropTypes from "prop-types"
-import { useState, useRef } from "react"
+import {useEffect, useState, useRef } from "react"
 
 //#region klass för varje match
 class match {
@@ -22,63 +22,150 @@ class match {
 
 function CreateAddResultModal({setPlayers}){
 
+    //#region UseRefs
     //useRef för att kunna hämta värden från formuläret 
     const homeRef = useRef("");
     const homeGoalRef = useRef("");
     const awayRef = useRef("");
     const awayGoalRef = useRef("");
 
-    //const {setPlayers} = usePlayers();
+    //Usref för modalen 
+    const modalRef = useRef("");
+    //#endregion
 
+    //#region Usestates
     //Usestate för matcher
     const [matches, setMatch] = useState([]);
 
-    //Funktion för att registrera matcher
+    //Usestate för att gömma modalen 
+    const [modal, setModal] = useState("");
+    //#endregion
+    
+    //#region Useeffect som används för att komma åt referensen av modalens nuvarande instans 
+    useEffect(() => {
+            if(modalRef.current) {
+                //Inisialiserar en ny modal med den nya värdena 
+                setModal(new window.bootstrap.Modal(modalRef.current));
+            }
+        }, []);
+    //#endregion
+
+    //#region Funktion för att registrera matcher
     function Match() {
+        //Kolar om det angivits ett namn för hemspelaren
+        if(homeRef.current && homeRef.current.value.trim() != ""){
 
-        //Variabel för att kolla om vald match har spelats eller ej
-        let matchCheck = true;
+            //Kollar om det angivits mål för hemalaget
+            let homeGoal = Number(homeGoalRef.current.value);
+            if(homeGoal && homeGoal != null && homeGoal > -1 ){
+            
+                //Kollar om det har angivits ett namn för bortaspelaren
+                if(awayRef.current && awayRef.current.value.trim() != ""){
 
-        //Testloop som loggar i consolen om matchen redan har spelats
-        matches.forEach(sinelMatch => {
-            if (sinelMatch.getHome() == "Daniel" && sinelMatch.getAway() == "Erik") {
-                console.log("Matchen har redan spelats");
-                matchCheck = false;
-            }
-        })
-        let newMatch;
+                    //Kollar om det har angivits mål för bortalaget
+                    let awayGoal = Number(awayGoalRef.current.value);
+                    if(awayGoal && awayGoal != null && awayGoal > -1){
+                        //Variabel för att kolla om vald match har spelats eller ej
+                        let matchCheck = true;
 
-        if (matchCheck) {
-            newMatch = new match(homeRef.current.value, awayRef.current.value, homeGoalRef.current.value, awayGoalRef.current.value);
+                        //Testloop som loggar i consolen om matchen redan har spelats
+                        matches.forEach(sinelMatch => {
+                            if (sinelMatch.getHome() == homeRef.current.value.trim() && sinelMatch.getAway() == awayRef.current.value.trim()) {
+                                console.log("Matchen har redan spelats");
+                                matchCheck = false;
+                            }
+                        })
 
-            setMatch(prevMatches => [...prevMatches, newMatch]);
+                        //Variabel för ny match 
+                        let newMatch;
 
-            setPlayers(players => players.map(player => {
-                console.log("match");
+                        // Kollar om matchen inte har spelats
+                        if (matchCheck) {
 
-                if (player.name == newMatch.getHome()) {
-                    console.log("home")
-                    if (newMatch.homeGoal > newMatch.awayGoal) {
-                        console.log("bigger");
-                        console.log(player.incrementPoint().incrementGames().addGoalDif(newMatch.homeGoal - newMatch.awayGoal))
-                        return player.incrementPoint().incrementGames().addGoalDif(newMatch.homeGoal - newMatch.awayGoal);
+                            //Skapar en ny match
+                            newMatch = new match(homeRef.current.value, awayRef.current.value, homeGoalRef.current.value, awayGoalRef.current.value);
+
+                            //Setter matchen genom att kopiera de tidigare och lägga till den nya
+                            setMatch(prevMatches => [...prevMatches, newMatch]);
+
+                            //Går igenom alla splare
+                            setPlayers(players => players.map(player => {
+
+                                //Checkar om spelaren var hemma
+                                if (player.name == newMatch.getHome()) {
+
+                                    //Kollar om det var seger
+                                    if (newMatch.homeGoal > newMatch.awayGoal) {
+                                        modal.hide();
+                                        return player.incrementPoint().incrementGames().addGoalDif(newMatch.homeGoal - newMatch.awayGoal);
+                                    }
+                                    //Kollar om det var oavgjort
+                                    else if(newMatch.homeGoal == newMatch.awayGoal){
+                                        modal.hide();
+                                        return player.incrementPointDraw().incrementGames();
+                                    }
+                                    //Förlust
+                                    else{
+                                        modal.hide();
+                                        return player.incrementGames().reduceGoalDif(newMatch.awayGoal - newMatch.homeGoal);
+                                    }
+                                }
+                                //Kollar om spearen var borta
+                                else if (player.name == newMatch.getAway()) {
+                                    //Kollar om det var förlust
+                                    if (newMatch.homeGoal > newMatch.awayGoal) {
+                                        modal.hide();
+                                        return player.incrementGames().reduceGoalDif(newMatch.homeGoal - newMatch.awayGoal);
+                                    }
+                                    //Kollar om det var oavgjort
+                                    else if(newMatch.homeGoal == newMatch.awayGoal){
+                                        modal.hide();
+                                        return player.incrementPointDraw().incrementGames();                                        
+                                    }
+                                    //Seger
+                                    else{
+                                        modal.hide();
+                                        return player.incrementPoint().incrementGames().addGoalDif(newMatch.awayGoal - newMatch.homeGoal);
+                                    }
+                                }
+                                modal.hide();
+                                return player
+                            }
+                            )
+                            )
+                        } 
+                    }
+                    //Visar fel för bortamål
+                    else{
+                        awayGoalRef.current.style.border = "3px solid red";
                     }
                 }
-                else if (player.name == newMatch.getAway()) {
-                    if (newMatch.homeGoal > newMatch.awayGoal) {
-                        return player.incrementGames().reduceGoalDif(newMatch.homeGoal - newMatch.awayGoal);
-                    }
+                //Visar fel för bortnamn
+                else{
+                    awayRef.current.style.border = "3px solid red";
                 }
-                return player
             }
-            )
-            )
+            //Visar fel för hemmamål
+            else{
+                homeGoalRef.current.style.border = "3px solid red";
+            }
         }
-    }     
+        //Visar fel för hemmanamn
+        else{
+            homeRef.current.style.border = "3px solid red";
+        }
+    } 
+    //#endregion
+
+    //#region Funktion som tar bort bordern som visar att något angivits fel i ett av inputfälten
+    function focus(ref){
+        ref.current.style.border = "";
+    }
+    //#endregion
         
     return (
         <>
-        <div className="modal fade" id="ModalAddResult" tabIndex="-1" aria-hidden="true">
+        <div className="modal fade" id="ModalAddResult" tabIndex="-1" aria-hidden="true" ref={modalRef}>
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
@@ -90,19 +177,19 @@ function CreateAddResultModal({setPlayers}){
                             <form action="" className="form-group">
                                 <div className="d-flex flex-column">
                                     <div className="form-floating">
-                                        <input type="text" name="Home" className="mb-2 form-control" id="antalDeltagare"  ref={homeRef} />
+                                        <input type="text" name="Home" className="mb-2 form-control" id="antalDeltagare" ref={homeRef} onFocus={() => focus(homeRef)}/>
                                         <label htmlFor="Home">Hemma</label>
                                     </div>
                                     <div className="form-floating">
-                                        <input type="number" name="HomeGoal" className="mb-2 form-control" id="antalMatcher" min="0" ref={homeGoalRef} />
+                                        <input type="number" name="HomeGoal" className="mb-2 form-control" id="antalMatcher" min="0"  ref={homeGoalRef} onFocus={() => focus(homeGoalRef)}/>
                                         <label htmlFor="HomeGoal">Antal mål hemma</label>
                                     </div>
                                     <div className="form-floating">
-                                        <input type="text" name="Away" className="mb-2 form-control" id="antalDeltagare" ref={awayRef} />
+                                        <input type="text" name="Away" className="mb-2 form-control" id="antalDeltagare" ref={awayRef} onFocus={() => focus(awayRef)}/>
                                         <label htmlFor="antalDeltagare">Borta</label>
                                     </div>
                                     <div className="form-floating">
-                                        <input type="number" name="AwayGoal" className="form-control" id="antalMatcher" min="0" ref={awayGoalRef} />
+                                        <input type="number" name="AwayGoal" className="form-control" id="antalMatcher" min="0" ref={awayGoalRef}  onFocus={() => focus(awayGoalRef)}/>
                                         <label htmlFor="AwayGoal">Antal mål borta</label>
                                     </div> 
                                 </div>
@@ -112,7 +199,7 @@ function CreateAddResultModal({setPlayers}){
                     <div className="modal-footer">
                         <button type="button" className="btn buttonCloseColor" data-bs-dismiss="modal">Close</button>
                         {/*Knappen som returnerar den skapade funktionen till navbar modulen*/}
-                        <button type="button" className="btn buttonColor" data-bs-dismiss="modal" onClick={() => Match()}>Add resultat</button>
+                        <button type="button" className="btn buttonColor" onClick={() => Match()}>Add resultat</button>
                     </div>
                 </div>
             </div>

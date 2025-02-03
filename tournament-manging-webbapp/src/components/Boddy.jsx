@@ -20,6 +20,10 @@ class Player {
         return new Player(this.name, this.points + 3, this.games, this.goalDif);
     }
 
+    incrementPointDraw() {
+        return new Player(this.name, this.points + 1, this.games, this.goalDif);
+    }
+
     getPoints() {
         return this.points;
     }
