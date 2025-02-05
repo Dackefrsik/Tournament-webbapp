@@ -47,10 +47,16 @@ function CreateTornamentModalBody({ returnTournament }) {
         const antalSpelare = Number(antalSpelareRef.current.value);
         const antalMatcher = Number(antalMatcherRef.current.value);
 
+        //Kollar om det angets ett antal spelare som är fler än 1
         if(antalSpelare && antalSpelare != null && antalSpelare > 1){
+            //Kollar om antal matcher är fler än noll
             if(antalMatcher && antalMatcher != null && antalMatcher > 0){
                 //Skapar en ny funktion utifrån konstrunktorn i klassen tournament
                 let newTournament = new tournament(antalSpelare, antalMatcher);
+
+                //Tömmer input fälten i modalen 
+                antalSpelareRef.current.value = "";
+                antalMatcherRef.current.value = "";
 
                 //Returnerar den nya turneringen
                 returnTournament(newTournament);

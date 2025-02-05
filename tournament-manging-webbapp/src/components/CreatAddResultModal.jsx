@@ -69,8 +69,8 @@ function CreateAddResultModal({setPlayers}){
                         let matchCheck = true;
 
                         //Testloop som loggar i consolen om matchen redan har spelats
-                        matches.forEach(sinelMatch => {
-                            if (sinelMatch.getHome() == homeRef.current.value.trim() && sinelMatch.getAway() == awayRef.current.value.trim()) {
+                        matches.forEach(singelMatch => {
+                            if (singelMatch.getHome() == homeRef.current.value.trim() && singelMatch.getAway() == awayRef.current.value.trim()) {
                                 console.log("Matchen har redan spelats");
                                 matchCheck = false;
                             }
@@ -84,6 +84,12 @@ function CreateAddResultModal({setPlayers}){
 
                             //Skapar en ny match
                             newMatch = new match(homeRef.current.value, awayRef.current.value, homeGoalRef.current.value, awayGoalRef.current.value);
+
+                            //Tömmer inputfälten i modalen 
+                            homeRef.current.value = "";
+                            awayRef.current.value = "";
+                            homeGoalRef.current.value = "";
+                            awayGoalRef.current.value = "";
 
                             //Setter matchen genom att kopiera de tidigare och lägga till den nya
                             setMatch(prevMatches => [...prevMatches, newMatch]);

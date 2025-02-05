@@ -1,4 +1,3 @@
-
 import PropTypes from "prop-types";
 import { useRef } from "react";
 /*Funktion som tar emot funktion för att ändra synlighet 
