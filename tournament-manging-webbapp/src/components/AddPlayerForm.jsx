@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 /*Funktion som tar emot funktion för att ändra synlighet 
 och id vär at veta vilken div vars synlighet ska ändras*/
 function AddPlayerForm({ handleVisibility, buttonID, returnPlayer }) {
@@ -7,6 +7,9 @@ function AddPlayerForm({ handleVisibility, buttonID, returnPlayer }) {
     //Sätter en referens på ett element istället 
     // för att använda quewrySelect
     const inputNameRef = useRef(null);
+    const buttonRef = useRef(null);
+
+    const [errorTextSpelare, setErrorTextSpelare] = useState("");
 
     //#region Funktion som hanterar addering av spelare
     const handleClick = (event) => {
@@ -19,15 +22,10 @@ function AddPlayerForm({ handleVisibility, buttonID, returnPlayer }) {
             handleVisibility(buttonID);
         }
         else {
-            //Ger input rutan en röd ram om den är tom
-            inputNameRef.current.style.border = "3px solid red";
+            //.blur tar bort spelare vid namn
+            buttonRef.current.blur();
+            setErrorTextSpelare("Måste ange spelare vid namn!");
         }
-    }
-    //#endregion
-
-    //#region Funktion som tar bort den röda ramen på input rutan
-    function inputFocus() {
-        inputNameRef.current.style.border = "";
     }
     //#endregion
 
@@ -35,14 +33,19 @@ function AddPlayerForm({ handleVisibility, buttonID, returnPlayer }) {
         <form action="" className="form-group " >
             <div className="d-flex flex-column">
                 <div className="row">
+                    {/*Skriver ut errortext*/}
+                    <p className="p-3 textError"> {errorTextSpelare} </p>
+                </div>
+                <div className="row">
                     <div className="col-9">
+                        
                         <div className="form-floating">
-                            <input type="text" name="Name" className="mb-2 form-control" id="Name" placeholder="Namm" ref={inputNameRef} onFocus={() => inputFocus()} />
+                            <input type="text" name="Name" className="mb-2 form-control" id="Name" placeholder="Namm" ref={inputNameRef} />
                             <label htmlFor="Name">Namn</label>
                         </div>
                     </div>
                     <div className="col-3 d-flex">
-                        <input type="submit" value="Add" className="mb-2 form-control btn buttonColor btn-lg p-2" onClick={handleClick} />
+                        <input type="submit" value="Add" className="mb-2 form-control btn buttonColor vh-50" onClick={handleClick} ref={buttonRef} />
                     </div>
                 </div>
             </div>

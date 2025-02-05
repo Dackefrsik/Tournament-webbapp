@@ -40,6 +40,7 @@ nav{
     border-radius: 0.25;
     color: var(--Light);
     font-size: 1.15rem;
+    padding: none;
 }
 /*#endregion*/
 
@@ -61,5 +62,14 @@ nav{
 .addPlayerCard{
     background-color: var(--Light);
     border: 3px solid var(--Dark);
+}
+/*#endregion*/
+
+/*#region Error text*/
+.textError{
+    color: var(--Secondary);
+    min-height: 20px;
+    max-height: 20px;
+    padding-left: 3px;
 }
 /*#endregion*/

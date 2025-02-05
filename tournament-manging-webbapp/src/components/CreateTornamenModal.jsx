@@ -29,6 +29,11 @@ function CreateTornamentModalBody({ returnTournament }) {
  
     //#region useStates
     const[modal, setModal] = useState("");
+
+    const[errorTextSpelare, setErrorTextSpelare] = useState("");
+
+    const[errorTextMatcher, setErrorTextMatcher] = useState(""); 
+
     //#endregion
 
     //#region Useeffect som låter oss ta ner modalen
@@ -43,6 +48,7 @@ function CreateTornamentModalBody({ returnTournament }) {
     //#region funktion som sparas i createTornamennt 
     const createTornement = () => {
 
+        resetError();
         //Tar emot värden för spelare och matcher
         const antalSpelare = Number(antalSpelareRef.current.value);
         const antalMatcher = Number(antalMatcherRef.current.value);
@@ -67,22 +73,30 @@ function CreateTornamentModalBody({ returnTournament }) {
             }
             //Sätter error på antal matcher
             else{
-                antalMatcherRef.current.style.border = "3px solid red";
+                setErrorTextMatcher("Måste ange minst 1 match!")
             }
         }
         //Sätter error på antal spelare
         else{
-            antalSpelareRef.current.style.border = "3px solid red";
+            setErrorTextSpelare("Måste ange mins två spelare!");
         }
     }
     //#endregion
 
-    //#region funktion som körs vid fokus på input fält 
-    function fokus(ref){
-        ref.current.style.border = "";
-    }
-    //#endregion
+    //#region funktion för att återställa errors '
+    function resetForm(){
+        resetForm();
 
+        antalSpelareRef.current.value = "";
+        antalMatcherRef.current.value = "";
+    }
+
+
+    function resetError(){
+        setErrorTextMatcher("");
+        setErrorTextSpelare("");
+    }
+    //#endregion 
     return (
         <div className="modal fade" id="ModalCreateTournament" tabIndex="-1" aria-hidden="true" ref={modalRef}>
             <div className="modal-dialog">
@@ -95,12 +109,16 @@ function CreateTornamentModalBody({ returnTournament }) {
                         <div>
                             <form action="" className="form-group">
                                 <div className="d-flex flex-column">
+                                    {/*Skriver ut errortext*/}
+                                    <p className="textError"> {errorTextSpelare} </p>
                                     <div className="form-floating">
-                                        <input type="number" name="antalDeltagare" className="mb-2 form-control" id="antalDeltagare" placeholder="Antal deltagare" min="2" ref={antalSpelareRef} onFocus={() => fokus(antalSpelareRef)}/>
+                                        <input type="number" name="antalDeltagare" className="mb-2 form-control" id="antalDeltagare" placeholder="Antal deltagare" min="2" ref={antalSpelareRef} />
                                         <label htmlFor="antalDeltagare">Antal deltagare</label>
                                     </div>
+                                    {/*Skriver ut errortext*/}
+                                    <p className="textError"> {errorTextMatcher} </p>
                                     <div className="form-floating">
-                                        <input type="number" name="antalMatcher" className="form-control" id="antalMatcher" placeholder="Antal matcher" min="1" ref={antalMatcherRef} onFocus={() => fokus(antalMatcherRef)}/>
+                                        <input type="number" name="antalMatcher" className="form-control" id="antalMatcher" placeholder="Antal matcher" min="1" ref={antalMatcherRef}/>
                                         <label htmlFor="antalMatcher">Antal Matcher</label>
                                     </div> 
                                 </div>
@@ -108,7 +126,7 @@ function CreateTornamentModalBody({ returnTournament }) {
                         </div>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn buttonCloseColor" data-bs-dismiss="modal">Close</button>
+                        <button type="button" className="btn buttonCloseColor" data-bs-dismiss="modal" onClick={() => resetForm()}>Close</button>
                         {/*Knappen som returnerar den skapade funktionen till navbar modulen*/}
                         <button type="button" className="btn buttonColor"  onClick={() => createTornement()} ref={buttonSubmit}>Create tournament</button>
                     </div>

@@ -39,6 +39,18 @@ function CreateAddResultModal({setPlayers}){
 
     //Usestate för att gömma modalen 
     const [modal, setModal] = useState("");
+
+    //Errortext match
+    const [errorText, setErrorText] = useState("");
+
+    const [errorTextHome, setErrorTextHome] = useState("");
+
+    const [errorTextHomeGoal, setErrorTextHomeGoal] = useState("");
+
+    const [errorTextAway, setErrorTextAway] = useState("");
+
+    const [errorTextAwayGoal, setErrorTextAwayGoal] = useState("");
+
     //#endregion
     
     //#region Useeffect som används för att komma åt referensen av modalens nuvarande instans 
@@ -71,7 +83,8 @@ function CreateAddResultModal({setPlayers}){
                         //Testloop som loggar i consolen om matchen redan har spelats
                         matches.forEach(singelMatch => {
                             if (singelMatch.getHome() == homeRef.current.value.trim() && singelMatch.getAway() == awayRef.current.value.trim()) {
-                                console.log("Matchen har redan spelats");
+                                clearError();
+                                setErrorText("Matchen har redan spelats!");
                                 matchCheck = false;
                             }
                         })
@@ -85,11 +98,8 @@ function CreateAddResultModal({setPlayers}){
                             //Skapar en ny match
                             newMatch = new match(homeRef.current.value, awayRef.current.value, homeGoalRef.current.value, awayGoalRef.current.value);
 
-                            //Tömmer inputfälten i modalen 
-                            homeRef.current.value = "";
-                            awayRef.current.value = "";
-                            homeGoalRef.current.value = "";
-                            awayGoalRef.current.value = "";
+                            //Kallar på funktion för att tömma formuläret
+                            clearForm();
 
                             //Setter matchen genom att kopiera de tidigare och lägga till den nya
                             setMatch(prevMatches => [...prevMatches, newMatch]);
@@ -143,34 +153,55 @@ function CreateAddResultModal({setPlayers}){
                     }
                     //Visar fel för bortamål
                     else{
-                        awayGoalRef.current.style.border = "3px solid red";
+                        clearError();
+                        setErrorTextAwayGoal("Bortamål moste anges och vara minst 0!");
                     }
                 }
                 //Visar fel för bortnamn
                 else{
-                    awayRef.current.style.border = "3px solid red";
+                    clearError();
+                    setErrorTextAway("Bortaspelare måste anges!");
                 }
             }
             //Visar fel för hemmamål
             else{
-                homeGoalRef.current.style.border = "3px solid red";
+                clearError();
+                setErrorTextHomeGoal("Hemmamål måste anges och vara minst 0!");
             }
         }
         //Visar fel för hemmanamn
         else{
-            homeRef.current.style.border = "3px solid red";
+            clearError();
+            setErrorTextHome("Hemmaspelare måste anges!");
         }
     } 
     //#endregion
 
-    //#region Funktion som tar bort bordern som visar att något angivits fel i ett av inputfälten
-    function focus(ref){
-        ref.current.style.border = "";
+    //#region Funtkion för att städa formuläret
+    function clearForm(){
+        
+        clearError();
+
+        //Tömmer inputfälten i modalen 
+        homeRef.current.value = "";
+        awayRef.current.value = "";
+        homeGoalRef.current.value = "";
+        awayGoalRef.current.value = "";
+        
+        modal.hide();
+    }
+
+    function clearError(){
+        //Tar bort errotexten
+        setErrorText("");
+        setErrorTextAway("");
+        setErrorTextAwayGoal("");
+        setErrorTextHome("");
+        setErrorTextHomeGoal("");
     }
     //#endregion
         
     return (
-        <>
         <div className="modal fade" id="ModalAddResult" tabIndex="-1" aria-hidden="true" ref={modalRef}>
             <div className="modal-dialog">
                 <div className="modal-content">
@@ -182,35 +213,44 @@ function CreateAddResultModal({setPlayers}){
                         <div>
                             <form action="" className="form-group">
                                 <div className="d-flex flex-column">
+                                    {/*Skriver ut errortext*/}
+                                    <p className="textError"> {errorTextHome} </p>
                                     <div className="form-floating">
-                                        <input type="text" name="Home" className="mb-2 form-control" id="antalDeltagare" ref={homeRef} onFocus={() => focus(homeRef)}/>
+                                        <input type="text" name="Home" className="mb-2 form-control" id="antalDeltagare" ref={homeRef} />
                                         <label htmlFor="Home">Hemma</label>
                                     </div>
-                                    <div className="form-floating">
-                                        <input type="number" name="HomeGoal" className="mb-2 form-control" id="antalMatcher" min="0"  ref={homeGoalRef} onFocus={() => focus(homeGoalRef)}/>
+                                    {/*Skriver ut errortext*/}
+                                    <p className="textError"> {errorTextHomeGoal} </p>
+                                    <div className="form-floating">   
+                                        <input type="number" name="HomeGoal" className="mb-2 form-control" id="antalMatcher" min="0" ref={homeGoalRef} />
                                         <label htmlFor="HomeGoal">Antal mål hemma</label>
                                     </div>
+                                    {/*Skriver ut errortext*/}
+                                    <p className="textError"> {errorTextAway} </p>
                                     <div className="form-floating">
-                                        <input type="text" name="Away" className="mb-2 form-control" id="antalDeltagare" ref={awayRef} onFocus={() => focus(awayRef)}/>
+                                        <input type="text" name="Away" className="mb-2 form-control" id="antalDeltagare" ref={awayRef} />
                                         <label htmlFor="antalDeltagare">Borta</label>
                                     </div>
+                                    {/*Skriver ut errortext*/}
+                                    <p className="textError"> {errorTextAwayGoal} </p>
                                     <div className="form-floating">
-                                        <input type="number" name="AwayGoal" className="form-control" id="antalMatcher" min="0" ref={awayGoalRef}  onFocus={() => focus(awayGoalRef)}/>
+                                        <input type="number" name="AwayGoal" className="form-control" id="antalMatcher" min="0" ref={awayGoalRef} />
                                         <label htmlFor="AwayGoal">Antal mål borta</label>
                                     </div> 
                                 </div>
                             </form>
                         </div>
+                        {/*Skriver ut errortext*/}
+                        <p className="textError"> {errorText} </p>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn buttonCloseColor" data-bs-dismiss="modal">Close</button>
+                        <button type="button" className="btn buttonCloseColor" data-bs-dismiss="modal" onClick={() => clearForm()}>Close</button>
                         {/*Knappen som returnerar den skapade funktionen till navbar modulen*/}
                         <button type="button" className="btn buttonColor" onClick={() => Match()}>Add resultat</button>
                     </div>
                 </div>
             </div>
         </div>
-        </>
     )
 }
 
