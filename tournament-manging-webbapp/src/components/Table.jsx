@@ -32,7 +32,7 @@ function Table({ players }) {
                         <th scope="col" className="text-center w-20">GD +/-</th>
                     </tr>
                 </thead>
-                <tbody className="table-group-divider">
+                <tbody className="table-group-divider" key={1}>
                     {/*Skriver ut raderna i playerRows*/}
                     {playerRows}
                 </tbody>

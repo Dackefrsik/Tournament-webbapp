@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { useRef, useState } from "react";
+
 /*Funktion som tar emot funktion för att ändra synlighet 
 och id vär at veta vilken div vars synlighet ska ändras*/
 function AddPlayerForm({ handleVisibility, buttonID, returnPlayer }) {

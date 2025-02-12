@@ -5,11 +5,12 @@ import PropTypes from 'prop-types';
 //#region klass för spelare
 class Player {
 
-    constructor(name, points = 0, games = 0, goalDif = 0) {
+    constructor(name, points = 0, games = 0, goalDif = 0, matches = []) {
         this.name = name;
         this.points = points;
         this.games = games;
         this.goalDif = goalDif;
+        this.matches = matches;
     }
 
     getName() {
@@ -17,11 +18,11 @@ class Player {
     }
 
     incrementPoint() {
-        return new Player(this.name, this.points + 3, this.games, this.goalDif);
+        return new Player(this.name, this.points + 3, this.games, this.goalDif, this.matches);
     }
 
     incrementPointDraw() {
-        return new Player(this.name, this.points + 1, this.games, this.goalDif);
+        return new Player(this.name, this.points + 1, this.games, this.goalDif, this.matches);
     }
 
     getPoints() {
@@ -29,7 +30,7 @@ class Player {
     }
 
     incrementGames() {
-        return new Player(this.name, this.points, this.games + 1, this.goalDif);
+        return new Player(this.name, this.points, this.games + 1, this.goalDif, this.matches);
     }
 
     getGames() {
@@ -37,16 +38,20 @@ class Player {
     }
 
     addGoalDif(goalDif) {
-        return new Player(this.name, this.points, this.games, this.goalDif + goalDif);
+        return new Player(this.name, this.points, this.games, this.goalDif + goalDif, this.matches);
 
     }
 
     reduceGoalDif(goalDif) {
-        return new Player(this.name, this.points, this.games, this.goalDif - goalDif);
+        return new Player(this.name, this.points, this.games, this.goalDif - goalDif, this.matches);
     }
 
     getGoalDif() {
         return this.goalDif;
+    }
+
+    addMatch(newMatch){
+        return new Player(this.name, this.points, this.games, this.goalDif, [this.matches, newMatch])
     }
 
 }
