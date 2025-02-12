@@ -97,6 +97,7 @@ function CreateTornamentModalBody({ returnTournament }) {
         setErrorTextSpelare("");
     }
     //#endregion 
+   
     return (
         <div className="modal fade" id="ModalCreateTournament" tabIndex="-1" aria-hidden="true" ref={modalRef}>
             <div className="modal-dialog">

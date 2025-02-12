@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 //#region klass för spelare
 class Player {
 
+    //Konstruktor för att skapa objekt av en spelare
     constructor(name, points = 0, games = 0, goalDif = 0, matches = []) {
         this.name = name;
         this.points = points;
@@ -13,47 +14,51 @@ class Player {
         this.matches = matches;
     }
 
+    //Get för spelarnamn
     getName() {
         return this.name;
     }
 
+    //Funktion för att öka poäng vid vinst
     incrementPoint() {
         return new Player(this.name, this.points + 3, this.games, this.goalDif, this.matches);
     }
 
+    //Funktion för att öka poäng vid oavgjort
     incrementPointDraw() {
         return new Player(this.name, this.points + 1, this.games, this.goalDif, this.matches);
     }
 
+    //Funktion för att hämta poäng
     getPoints() {
         return this.points;
     }
 
-    incrementGames() {
-        return new Player(this.name, this.points, this.games + 1, this.goalDif, this.matches);
-    }
-
-    getGames() {
-        return this.games;
-    }
-
+    //Funktion som plussar på målskillnaden
     addGoalDif(goalDif) {
         return new Player(this.name, this.points, this.games, this.goalDif + goalDif, this.matches);
 
     }
 
+    //Funktion som ökar målskillnaden
     reduceGoalDif(goalDif) {
         return new Player(this.name, this.points, this.games, this.goalDif - goalDif, this.matches);
     }
 
+    //Funktion som hämtar målskillnaden
     getGoalDif() {
         return this.goalDif;
     }
 
+    //Funktion som lägger till en ny match 
     addMatch(newMatch){
-        return new Player(this.name, this.points, this.games, this.goalDif, [this.matches, newMatch])
+        return new Player(this.name, this.points, this.games, this.goalDif, [...this.matches, newMatch])
     }
 
+    //Funktion som hämtar spelade matcher
+    getMatches(){
+        return this.matches;
+    }
 }
 //#endregion
 
@@ -63,6 +68,8 @@ function Body({ tornament, setPlayers, players }) {
     //#region Funktion som tar emot alla inmatad spelares namn
     function returnPlayer(playeIn) {
         let newPlayer = new Player(playeIn);
+
+        console.log(newPlayer);
 
         setPlayers(prevIn => [...prevIn, newPlayer]);        
     }

@@ -13,9 +13,17 @@ class match {
     getHome() {
         return this.home;
     }
+    
+    getHomeGoal(){
+        return this.homeGoal;
+    }
 
     getAway() {
         return this.away;
+    }
+
+    getAwayGoal(){
+        return this.awayGoal;
     }
 }
 //#endregion
@@ -69,14 +77,14 @@ function CreateAddResultModal({setPlayers}){
 
             //Kollar om det angivits mål för hemalaget
             let homeGoal = Number(homeGoalRef.current.value);
-            if(homeGoal && homeGoal != null && homeGoal > -1 ){
+            if(homeGoal != null && !isNaN(homeGoal) && homeGoal > -1 ){
             
                 //Kollar om det har angivits ett namn för bortaspelaren
                 if(awayRef.current && awayRef.current.value.trim() != ""){
 
                     //Kollar om det har angivits mål för bortalaget
                     let awayGoal = Number(awayGoalRef.current.value);
-                    if(awayGoal && awayGoal != null && awayGoal > -1){
+                    if(awayGoal != null && !isNaN(awayGoal) && awayGoal > -1){
                         //Variabel för att kolla om vald match har spelats eller ej
                         let matchCheck = true;
 
@@ -113,18 +121,18 @@ function CreateAddResultModal({setPlayers}){
                                     //Kollar om det var seger
                                     if (newMatch.homeGoal > newMatch.awayGoal) {
                                         modal.hide();
-                                        return player.incrementPoint().incrementGames().addGoalDif(newMatch.homeGoal - newMatch.awayGoal).addMatch(newMatch);
+
+                                        return player.incrementPoint().addGoalDif(newMatch.homeGoal - newMatch.awayGoal).addMatch(newMatch);
                                     }
                                     //Kollar om det var oavgjort
                                     else if(newMatch.homeGoal == newMatch.awayGoal){
                                         modal.hide();
-                                        return player.incrementPointDraw().incrementGames().addMatch(newMatch);
+                                        return player.incrementPointDraw().addMatch(newMatch);
                                     }
                                     //Förlust
                                     else{
                                         modal.hide();
-                                        console.log(player.incrementGames().reduceGoalDif(newMatch.awayGoal - newMatch.homeGoal).addMatch(newMatch));
-                                        return player.incrementGames().reduceGoalDif(newMatch.awayGoal - newMatch.homeGoal).addMatch(newMatch);
+                                        return player.reduceGoalDif(newMatch.awayGoal - newMatch.homeGoal).addMatch(newMatch);
                                     }
                                 }
                                 //Kollar om spearen var borta
@@ -132,17 +140,17 @@ function CreateAddResultModal({setPlayers}){
                                     //Kollar om det var förlust
                                     if (newMatch.homeGoal > newMatch.awayGoal) {
                                         modal.hide();
-                                        return player.incrementGames().reduceGoalDif(newMatch.homeGoal - newMatch.awayGoal).addMatch(newMatch);
+                                        return player.reduceGoalDif(newMatch.homeGoal - newMatch.awayGoal).addMatch(newMatch);
                                     }
                                     //Kollar om det var oavgjort
                                     else if(newMatch.homeGoal == newMatch.awayGoal){
                                         modal.hide();
-                                        return player.incrementPointDraw().incrementGames().addMatch(newMatch);                                        
+                                        return player.incrementPointDraw().addMatch(newMatch);                                        
                                     }
                                     //Seger
                                     else{
                                         modal.hide();
-                                        return player.incrementPoint().incrementGames().addGoalDif(newMatch.awayGoal - newMatch.homeGoal).addMatch(newMatch);
+                                        return player.incrementPoint().addGoalDif(newMatch.awayGoal - newMatch.homeGoal).addMatch(newMatch);
                                     }
                                 }
                                 modal.hide();
@@ -177,7 +185,6 @@ function CreateAddResultModal({setPlayers}){
         }
     } 
     //#endregion
-
 
     //#region Funtkion för att städa formuläret
     function clearForm(){
