@@ -5,12 +5,13 @@
     --Light : #F8F9FA;
     --Dark : #212529;
     --Gray : #D6D8DB;
+    --ScrollBar : #999;
 }
 
 /*#region Body*/
-*{
-    margin: 0px ;
-    padding: 0px ;
+html {
+    margin: 0;
+    padding: 0;
 }
 
 /*Bakgrundsfärg för body*/
@@ -79,5 +80,36 @@ nav{
 .matchRowColor{
     background-color: var(--Gray) !important;
     font-size: 14px;
+}
+/*#endregion*/
+
+/*#region scrollbar*/
+/**/
+::-webkit-scrollbar{
+    width: 1rem; 
+    background: #007BFF; 
+
+}
+
+/*Utseende för spåret som cscrollen åker i*/
+::-webkit-scrollbar-track {
+    background: var(--Light);
+    margin-top: 66px;
+}
+
+/*Utseende för scrollbarens draghandtag*/
+::-webkit-scrollbar-thumb {
+    background: var(--ScrollBar);
+    border-radius: 8px;
+    border: 0.3rem solid var(--Light);
+    margin-top: 20px;
+}
+
+/*Utseende för scrollbarens draghandtag när någon rör vid den*/
+::-webkit-scrollbar-thumb:hover {
+    background: var(--ScrollBar);
+    border: 0.3rem solid var(--Light);
+    margin-top: 20px;
+
 }
 /*#endregion*/

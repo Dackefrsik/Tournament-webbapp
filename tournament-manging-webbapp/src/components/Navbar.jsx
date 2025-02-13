@@ -20,18 +20,18 @@ function Navbar({ setTornament, players, setPlayers}) {
 
     return (
         <>
-            <div className="container-fluid w-100">
-                <nav className="navbar navbar-expand-lg p-2">
+            <div className="sticky-top">
+                <nav className="navbar navbar-expand-lg">
                     <button className="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <div className="collapse navbar-collapse" id="navbarNav">
+                    <div className="collapse navbar-collapse ms-3" id="navbarNav">
                         <ul className="navbar-nav">
-                            <li className="nav-item mt-2 me-1 ms-auto">
+                            <li className="nav-item mt-2 me-1 ms-1">
                                 <div id="createTournament" type="button" className="btn buttonColor" data-bs-toggle="modal" data-bs-target="#ModalCreateTournament">Create new tournament</div>
                             </li>
                             {(antalDeltagare != null  &&  antalDeltagare == players.length) && 
-                            <li className="navbar-item mt-2 me-1 ms-auto">
+                            <li className="navbar-item mt-2 me-1 ms-1">
                                 <div className="btn buttonColor" type="button" data-bs-toggle="modal" data-bs-target="#ModalAddResult">Add reasult</div>
                             </li>}
                         </ul>
