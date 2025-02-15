@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import {useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 /*Funktion som tar emot funktion för att ändra synlighet 
 och id vär at veta vilken div vars synlighet ska ändras*/
@@ -17,7 +17,7 @@ function AddPlayerForm({ handleVisibility, buttonID, returnPlayer, players }) {
         return players.some(player => player.name == playerName);
     }
     //#endregion
-    
+
     //#region Funktion som hanterar addering av spelare
     const handleClick = (event) => {
         event.preventDefault();
@@ -26,15 +26,22 @@ function AddPlayerForm({ handleVisibility, buttonID, returnPlayer, players }) {
         //Tar bort div:n med formuläret i om det har text i sig
         if (inputNameRef.current && inputNameRef.current.value.trim() !== "") {
 
-            //Kollar om spelaren redan är registrerad
-            if(!playerExist(inputNameRef.current.value.trim())){
-                returnPlayer(inputNameRef.current.value)
-                handleVisibility(buttonID);
+            if (inputNameRef.current.value.trim().length >= 3) {
+                //Kollar om spelaren redan är registrerad
+                if (!playerExist(inputNameRef.current.value.trim())) {
+                    returnPlayer(inputNameRef.current.value)
+                    handleVisibility(buttonID);
+                }
+                //Felmedelande om angiven spelare redan existerar
+                else {
+                    setErrorTextSpelare("Spelaren är redan angiven");
+                }
             }
-            //Felmedelande om angiven spelare redan existerar
             else{
-                setErrorTextSpelare("Spelaren är redan angiven");
+                setErrorTextSpelare("Namn måste vara minst tre tecken!");
             }
+
+
         }
         //Felmedelande om spelarnamn är tomt
         else {
@@ -55,7 +62,7 @@ function AddPlayerForm({ handleVisibility, buttonID, returnPlayer, players }) {
                 </div>
                 <div className="row">
                     <div className="col-9">
-                        
+
                         <div className="form-floating">
                             <input type="text" name="Name" className="mb-2 form-control" id="Name" placeholder="Namm" ref={inputNameRef} />
                             <label htmlFor="Name">Namn</label>
@@ -72,10 +79,10 @@ function AddPlayerForm({ handleVisibility, buttonID, returnPlayer, players }) {
 
 //Validerar mina props
 AddPlayerForm.propTypes = {
-    handleVisibility : PropTypes.func.isRequired, 
-    buttonID : PropTypes.number.isRequired, 
-    returnPlayer : PropTypes.func.isRequired, 
-    players : PropTypes.array.isRequired,
+    handleVisibility: PropTypes.func.isRequired,
+    buttonID: PropTypes.number.isRequired,
+    returnPlayer: PropTypes.func.isRequired,
+    players: PropTypes.array.isRequired,
 }
 
 export default AddPlayerForm;
