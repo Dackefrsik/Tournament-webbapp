@@ -82,7 +82,18 @@ function Body({ tornament, setPlayers, players }) {
             {tornament != null && <AddPlayer tornament={tornament.antalDeltagare} returnPlayer={returnPlayer} />}
 
             {/*Kollar om alla spelare är inmatade och visar tabellen med spelare*/}
-            {(players != null && tornament != null && players.length == tornament.antalDeltagare) && <Table players={[...players].sort((a, b) => b.getPoints() - a.getPoints())} />}
+            {(players != null && tornament != null && players.length == tornament.antalDeltagare) && <Table players={[...players].sort((a, b) => {
+                
+                //Om spelarna har samma poäng så sorterar den på målskillnad
+                if(b.getPoints() == a.getPoints()){
+                    return b.getGoalDif() - a.getGoalDif();
+                }
+                else{
+                    //sorterar på poäng
+                    return b.getPoints() - a.getPoints();
+                }
+
+            } )}/>}
 
         </>
 
