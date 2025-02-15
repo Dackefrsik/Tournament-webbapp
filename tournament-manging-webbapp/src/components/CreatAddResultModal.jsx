@@ -1,5 +1,5 @@
 import PropTypes from "prop-types"
-import {useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef } from "react"
 
 //#region klass för varje match
 class match {
@@ -13,8 +13,8 @@ class match {
     getHome() {
         return this.home;
     }
-    
-    getHomeGoal(){
+
+    getHomeGoal() {
         return this.homeGoal;
     }
 
@@ -22,13 +22,13 @@ class match {
         return this.away;
     }
 
-    getAwayGoal(){
+    getAwayGoal() {
         return this.awayGoal;
     }
 }
 //#endregion
 
-function CreateAddResultModal({setPlayers}){
+function CreateAddResultModal({ setPlayers, players }) {
 
     //#region UseRefs
     //useRef för att kunna hämta värden från formuläret 
@@ -60,135 +60,162 @@ function CreateAddResultModal({setPlayers}){
     const [errorTextAwayGoal, setErrorTextAwayGoal] = useState("");
 
     //#endregion
-    
+
     //#region Useeffect som används för att komma åt referensen av modalens nuvarande instans 
     useEffect(() => {
-            if(modalRef.current) {
-                //Inisialiserar en ny modal med den nya värdena 
-                setModal(new window.bootstrap.Modal(modalRef.current));
-            }
-        }, []);
+        if (modalRef.current) {
+            //Inisialiserar en ny modal med den nya värdena 
+            setModal(new window.bootstrap.Modal(modalRef.current));
+        }
+    }, []);
+    //#endregion
+
+    //#region Funktion för att kolla om angiven spelare existerar
+    function playerExist(playerName) {
+        return players.some(player => player.name == playerName);
+    }
     //#endregion
 
     //#region Funktion för att registrera matcher
     function Match() {
         //Kolar om det angivits ett namn för hemspelaren
-        if(homeRef.current && homeRef.current.value.trim() != ""){
+        if (homeRef.current && homeRef.current.value.trim() != "") {
 
-            //Kollar om det angivits mål för hemalaget
-            let homeGoal = Number(homeGoalRef.current.value);
-            if(homeGoal != null && !isNaN(homeGoal) && homeGoal > -1 ){
-            
-                //Kollar om det har angivits ett namn för bortaspelaren
-                if(awayRef.current && awayRef.current.value.trim() != ""){
+            //Kollar om den angivna hemmaspelaren är en faktisk hemmaspelare
+            if (playerExist(homeRef.current.value.trim())) {
 
-                    //Kollar om det har angivits mål för bortalaget
-                    let awayGoal = Number(awayGoalRef.current.value);
-                    if(awayGoal != null && !isNaN(awayGoal) && awayGoal > -1){
-                        //Variabel för att kolla om vald match har spelats eller ej
-                        let matchCheck = true;
+                //Kollar om det angivits mål för hemalaget
+                let homeGoal = Number(homeGoalRef.current.value);
+                if (homeGoal != null && !isNaN(homeGoal) && homeGoal > -1) {
 
-                        //Testloop som loggar i consolen om matchen redan har spelats
-                        matches.forEach(singelMatch => {
-                            if (singelMatch.getHome() == homeRef.current.value.trim() && singelMatch.getAway() == awayRef.current.value.trim()) {
+                    //Kollar om det har angivits ett namn för bortaspelaren
+                    if (awayRef.current && awayRef.current.value.trim() != "") {
+
+                        //Kollar om den angivna bortaspelaren är en faktisk hemmaspelare
+                        if (playerExist(awayRef.current.value.trim())) {
+
+                            //Kollar om det har angivits mål för bortalaget
+                            let awayGoal = Number(awayGoalRef.current.value);
+                            if (awayGoal != null && !isNaN(awayGoal) && awayGoal > -1) {
+                                //Variabel för att kolla om vald match har spelats eller ej
+                                let matchCheck = true;
+
+                                //Testloop som loggar i consolen om matchen redan har spelats
+                                matches.forEach(singelMatch => {
+                                    if (singelMatch.getHome() == homeRef.current.value.trim() && singelMatch.getAway() == awayRef.current.value.trim()) {
+                                        clearError();
+                                        setErrorText("Matchen har redan spelats!");
+                                        matchCheck = false;
+                                    }
+                                })
+
+                                //Variabel för ny match 
+                                let newMatch;
+
+                                // Kollar om matchen inte har spelats
+                                if (matchCheck) {
+
+                                    //Skapar en ny match
+                                    newMatch = new match(homeRef.current.value, awayRef.current.value, homeGoalRef.current.value, awayGoalRef.current.value);
+
+                                    //Kallar på funktion för att tömma formuläret
+                                    clearForm();
+
+                                    //Setter matchen genom att kopiera de tidigare och lägga till den nya
+                                    setMatch(prevMatches => [...prevMatches, newMatch]);
+
+                                    //Går igenom alla splare
+                                    setPlayers(players => players.map(player => {
+
+                                        //Checkar om spelaren var hemma
+                                        if (player.name == newMatch.getHome()) {
+
+                                            //Kollar om det var seger
+                                            if (newMatch.homeGoal > newMatch.awayGoal) {
+                                                modal.hide();
+
+                                                return player.incrementPoint().addGoalDif(newMatch.homeGoal - newMatch.awayGoal).addMatch(newMatch);
+                                            }
+                                            //Kollar om det var oavgjort
+                                            else if (newMatch.homeGoal == newMatch.awayGoal) {
+                                                modal.hide();
+                                                return player.incrementPointDraw().addMatch(newMatch);
+                                            }
+                                            //Förlust
+                                            else {
+                                                modal.hide();
+                                                return player.reduceGoalDif(newMatch.awayGoal - newMatch.homeGoal).addMatch(newMatch);
+                                            }
+                                        }
+                                        //Kollar om spearen var borta
+                                        else if (player.name == newMatch.getAway()) {
+                                            //Kollar om det var förlust
+                                            if (newMatch.homeGoal > newMatch.awayGoal) {
+                                                modal.hide();
+                                                return player.reduceGoalDif(newMatch.homeGoal - newMatch.awayGoal).addMatch(newMatch);
+                                            }
+                                            //Kollar om det var oavgjort
+                                            else if (newMatch.homeGoal == newMatch.awayGoal) {
+                                                modal.hide();
+                                                return player.incrementPointDraw().addMatch(newMatch);
+                                            }
+                                            //Seger
+                                            else {
+                                                modal.hide();
+                                                return player.incrementPoint().addGoalDif(newMatch.awayGoal - newMatch.homeGoal).addMatch(newMatch);
+                                            }
+                                        }
+                                        modal.hide();
+                                        return player
+                                    }
+                                    )
+                                    )
+                                }
+                            }
+                            //Visar fel för bortamål
+                            else {
                                 clearError();
-                                setErrorText("Matchen har redan spelats!");
-                                matchCheck = false;
+                                setErrorTextAwayGoal("Bortamål moste anges och vara minst 0!");
                             }
-                        })
-
-                        //Variabel för ny match 
-                        let newMatch;
-
-                        // Kollar om matchen inte har spelats
-                        if (matchCheck) {
-
-                            //Skapar en ny match
-                            newMatch = new match(homeRef.current.value, awayRef.current.value, homeGoalRef.current.value, awayGoalRef.current.value);
-
-                            //Kallar på funktion för att tömma formuläret
-                            clearForm();
-
-                            //Setter matchen genom att kopiera de tidigare och lägga till den nya
-                            setMatch(prevMatches => [...prevMatches, newMatch]);
-
-                            //Går igenom alla splare
-                            setPlayers(players => players.map(player => {
-
-                                //Checkar om spelaren var hemma
-                                if (player.name == newMatch.getHome()) {
-
-                                    //Kollar om det var seger
-                                    if (newMatch.homeGoal > newMatch.awayGoal) {
-                                        modal.hide();
-
-                                        return player.incrementPoint().addGoalDif(newMatch.homeGoal - newMatch.awayGoal).addMatch(newMatch);
-                                    }
-                                    //Kollar om det var oavgjort
-                                    else if(newMatch.homeGoal == newMatch.awayGoal){
-                                        modal.hide();
-                                        return player.incrementPointDraw().addMatch(newMatch);
-                                    }
-                                    //Förlust
-                                    else{
-                                        modal.hide();
-                                        return player.reduceGoalDif(newMatch.awayGoal - newMatch.homeGoal).addMatch(newMatch);
-                                    }
-                                }
-                                //Kollar om spearen var borta
-                                else if (player.name == newMatch.getAway()) {
-                                    //Kollar om det var förlust
-                                    if (newMatch.homeGoal > newMatch.awayGoal) {
-                                        modal.hide();
-                                        return player.reduceGoalDif(newMatch.homeGoal - newMatch.awayGoal).addMatch(newMatch);
-                                    }
-                                    //Kollar om det var oavgjort
-                                    else if(newMatch.homeGoal == newMatch.awayGoal){
-                                        modal.hide();
-                                        return player.incrementPointDraw().addMatch(newMatch);                                        
-                                    }
-                                    //Seger
-                                    else{
-                                        modal.hide();
-                                        return player.incrementPoint().addGoalDif(newMatch.awayGoal - newMatch.homeGoal).addMatch(newMatch);
-                                    }
-                                }
-                                modal.hide();
-                                return player
-                            }
-                            )
-                            )
-                        } 
+                        }
+                        //Visar fel för bortnamn
+                        else {
+                            clearError();
+                            setErrorTextAway("Spelaren delatar inte!");
+                        }
                     }
-                    //Visar fel för bortamål
+                    //Visar fel för felaktigt angiven bortasspelare
                     else{
                         clearError();
-                        setErrorTextAwayGoal("Bortamål moste anges och vara minst 0!");
+                        setErrorTextAway("Bortaspelare måste anges!");
+
                     }
                 }
-                //Visar fel för bortnamn
-                else{
+
+                //Visar fel för hemmamål
+                else {
                     clearError();
-                    setErrorTextAway("Bortaspelare måste anges!");
+                    setErrorTextHomeGoal("Hemmamål måste anges och vara minst 0!");
                 }
             }
-            //Visar fel för hemmamål
-            else{
+            //Visar fel för felaktigt angiven hemmaspelare
+            else {
                 clearError();
-                setErrorTextHomeGoal("Hemmamål måste anges och vara minst 0!");
+                setErrorTextHome("Spelaren deltar inte!");
             }
+
+
+
         }
-        //Visar fel för hemmanamn
-        else{
-            clearError();
-            setErrorTextHome("Hemmaspelare måste anges!");
+        else {
+            setErrorTextHome("Måste ange en spelare");
         }
-    } 
+    }
     //#endregion
 
     //#region Funtkion för att städa formuläret
-    function clearForm(){
-        
+    function clearForm() {
+
         clearError();
 
         //Tömmer inputfälten i modalen 
@@ -196,11 +223,11 @@ function CreateAddResultModal({setPlayers}){
         awayRef.current.value = "";
         homeGoalRef.current.value = "";
         awayGoalRef.current.value = "";
-        
+
         modal.hide();
     }
 
-    function clearError(){
+    function clearError() {
         //Tar bort errotexten
         setErrorText("");
         setErrorTextAway("");
@@ -209,7 +236,7 @@ function CreateAddResultModal({setPlayers}){
         setErrorTextHomeGoal("");
     }
     //#endregion
-        
+
     return (
         <div className="modal fade" id="ModalAddResult" tabIndex="-1" aria-hidden="true" ref={modalRef}>
             <div className="modal-dialog">
@@ -230,7 +257,7 @@ function CreateAddResultModal({setPlayers}){
                                     </div>
                                     {/*Skriver ut errortext*/}
                                     <p className="textError"> {errorTextHomeGoal} </p>
-                                    <div className="form-floating">   
+                                    <div className="form-floating">
                                         <input type="number" name="HomeGoal" className="mb-2 form-control" id="antalMatcher" min="0" ref={homeGoalRef} />
                                         <label htmlFor="HomeGoal">Antal mål hemma</label>
                                     </div>
@@ -245,7 +272,7 @@ function CreateAddResultModal({setPlayers}){
                                     <div className="form-floating">
                                         <input type="number" name="AwayGoal" className="form-control" id="antalMatcher" min="0" ref={awayGoalRef} />
                                         <label htmlFor="AwayGoal">Antal mål borta</label>
-                                    </div> 
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -265,7 +292,8 @@ function CreateAddResultModal({setPlayers}){
 
 //Validerar mina props
 CreateAddResultModal.propTypes = {
-    setPlayers : PropTypes.func.isRequired
+    setPlayers: PropTypes.func.isRequired,
+    players: PropTypes.array.isRequired
 }
 
 export default CreateAddResultModal
