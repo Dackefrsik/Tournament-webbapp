@@ -79,7 +79,7 @@ function Body({ tornament, setPlayers, players }) {
         <>
             {/*Skriver ut modulen för att ange deltager med namn
             En gång för varje spelare som angets när tävlingen satts upp*/ }
-            {tornament != null && <AddPlayer tornament={tornament.antalDeltagare} returnPlayer={returnPlayer} />}
+            {tornament != null && <AddPlayer tornament={tornament.antalDeltagare} returnPlayer={returnPlayer} players={players}/>}
 
             {/*Kollar om alla spelare är inmatade och visar tabellen med spelare*/}
             {(players != null && tornament != null && players.length == tornament.antalDeltagare) && <Table players={[...players].sort((a, b) => {

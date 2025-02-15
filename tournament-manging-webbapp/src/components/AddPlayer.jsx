@@ -2,7 +2,7 @@ import AddPlayerForm from "./AddPlayerForm";
 import PropTypes from "prop-types";
 
 //Tar emot den skapade turneringen från App-jsx
-function AddPlayer({ tornament, returnPlayer }) {
+function AddPlayer({ tornament, returnPlayer, players }) {
 
     //Vektor för att hålla i element för att lägga
     //till en spelare med
@@ -26,7 +26,7 @@ function AddPlayer({ tornament, returnPlayer }) {
                 </h3>
                 {/*Kallar på komponenten som visar ett 
                 formulär för att lägga till delatagare med namn*/}
-                <AddPlayerForm handleVisibility={handleVisibility} buttonID={i} returnPlayer={returnPlayer} />
+                <AddPlayerForm handleVisibility={handleVisibility} buttonID={i} returnPlayer={returnPlayer} players={players} />
             </div>
         )
     }
@@ -43,7 +43,8 @@ function AddPlayer({ tornament, returnPlayer }) {
 //Validerar mina props
 AddPlayer.propTypes = {
     tornament : PropTypes.number.isRequired,
-    returnPlayer : PropTypes.func.isRequired
+    returnPlayer : PropTypes.func.isRequired,
+    players : PropTypes.func.isRequired
 }
 
 export default AddPlayer;

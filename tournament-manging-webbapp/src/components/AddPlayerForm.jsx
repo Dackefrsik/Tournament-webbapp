@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
-import { useRef, useState } from "react";
+import {useRef, useState } from "react";
 
 /*Funktion som tar emot funktion för att ändra synlighet 
 och id vär at veta vilken div vars synlighet ska ändras*/
-function AddPlayerForm({ handleVisibility, buttonID, returnPlayer }) {
+function AddPlayerForm({ handleVisibility, buttonID, returnPlayer, players }) {
 
     //Sätter en referens på ett element istället 
     // för att använda quewrySelect
@@ -12,6 +12,12 @@ function AddPlayerForm({ handleVisibility, buttonID, returnPlayer }) {
 
     const [errorTextSpelare, setErrorTextSpelare] = useState("");
 
+    //#region Funktion för att kolla om angiven spelare existerar för att undvika duplicerade namn
+    function playerExist(playerName) {
+        return players.some(player => player.name == playerName);
+    }
+    //#endregion
+    
     //#region Funktion som hanterar addering av spelare
     const handleClick = (event) => {
         event.preventDefault();
@@ -19,14 +25,24 @@ function AddPlayerForm({ handleVisibility, buttonID, returnPlayer }) {
         //Skickar spelarens namn till baka till main
         //Tar bort div:n med formuläret i om det har text i sig
         if (inputNameRef.current && inputNameRef.current.value.trim() !== "") {
-            returnPlayer(inputNameRef.current.value)
-            handleVisibility(buttonID);
+
+            //Kollar om spelaren redan är registrerad
+            if(!playerExist(inputNameRef.current.value.trim())){
+                returnPlayer(inputNameRef.current.value)
+                handleVisibility(buttonID);
+            }
+            //Felmedelande om angiven spelare redan existerar
+            else{
+                setErrorTextSpelare("Spelaren är redan angiven");
+            }
         }
+        //Felmedelande om spelarnamn är tomt
         else {
-            //.blur tar bort spelare vid namn
-            buttonRef.current.blur();
             setErrorTextSpelare("Måste ange spelare vid namn!");
         }
+
+        //.blur tar bort fokus på knappen
+        buttonRef.current.blur();
     }
     //#endregion
 
@@ -58,7 +74,8 @@ function AddPlayerForm({ handleVisibility, buttonID, returnPlayer }) {
 AddPlayerForm.propTypes = {
     handleVisibility : PropTypes.func.isRequired, 
     buttonID : PropTypes.number.isRequired, 
-    returnPlayer : PropTypes.func.isRequired
+    returnPlayer : PropTypes.func.isRequired, 
+    players : PropTypes.array.isRequired,
 }
 
 export default AddPlayerForm;
