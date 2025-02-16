@@ -1,22 +1,50 @@
-import CreateTornamentModal from "./CreateTornamenModal";
-import {useState } from "react";
+import CreateTornamentModal from "../ModalBoys/CreateTornamenModal";
+import {useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import CreateAddResultModal from "./CreatAddResultModal";
+import CreateAddResultModal from "../ModalBoys/CreatAddResultModal";
 
 //Funktion för navbar, den tar emot funktionen som skickas till den som props
 function Navbar({ setTornament, players, setPlayers, clear}) {
 
     const [antalDeltagare, setDeltagare] = useState(null)
 
+    const [antalMatcher, setAntalMatcer] = useState(null);
+
+    const [speladeMatcher, setSpeladeMatcher] = useState([]);
+
     //#region Funktion för att kunna spara den skapade turneringen 
     function returnTournament(newTournament) {
-
+       
         setDeltagare(newTournament.antalDeltagare)
 
         //Returnerar turneringen 
         setTornament(newTournament);
+
+        setAntalMatcer(newTournament.antalMatcher * newTournament.antalDeltagare);
+
+        console.log("Antalet matcher", newTournament.antalMatcher);
     }
     //#endregion
+
+    function returnMatches(matches){
+        setSpeladeMatcher([...speladeMatcher, matches]);
+    }
+
+    useEffect (() => {
+        console.log("Antal matcher ", antalMatcher );
+        console.log("Antal spelade matcher ", speladeMatcher);
+
+        if(antalMatcher === speladeMatcher){
+            console.log("Matcher spelade");
+        }
+        else{
+            console.log("Matcher kvar");
+        }
+    }
+    )
+
+
+        
     
     return (
         <>
@@ -30,8 +58,8 @@ function Navbar({ setTornament, players, setPlayers, clear}) {
                             <li className="nav-item mt-2 me-1 ms-1">
                                 <div id="createTournament" type="button" className="btn buttonColor" data-bs-toggle="modal" data-bs-target="#ModalCreateTournament">Create new tournament</div>
                             </li>
-                            {/*Visas först när alla spelare är angivna*/
-                            (antalDeltagare != null  &&  antalDeltagare == players.length) && 
+                            {/*Visas först när alla spelare är angivna men försvinner när antalet matcher är spelade*/
+                            (antalDeltagare != null  &&  antalDeltagare == players.length && antalMatcher != speladeMatcher) && 
                             <li className="navbar-item mt-2 me-1 ms-1">
                                 <div className="btn buttonColor" type="button" data-bs-toggle="modal" data-bs-target="#ModalAddResult">Add reasult</div>
                             </li>}
@@ -50,7 +78,7 @@ function Navbar({ setTornament, players, setPlayers, clear}) {
             
             {/*Modal för att lägga till resultat, går först att visa när alla spelare 
             är angivna med namn*/}
-            <CreateAddResultModal players={players} setPlayers={setPlayers}/> 
+            <CreateAddResultModal players={players} setPlayers={setPlayers} returnMatches={returnMatches}/> 
 
 
         </>

@@ -2,7 +2,7 @@ import AddPlayerForm from "./AddPlayerForm";
 import PropTypes from "prop-types";
 
 //Tar emot den skapade turneringen från App-jsx
-function AddPlayer({ tornament, returnPlayer, players }) {
+function AddPlayer({ tournament, returnPlayer, players }) {
 
     //Vektor för att hålla i element för att lägga
     //till en spelare med
@@ -16,7 +16,7 @@ function AddPlayer({ tornament, returnPlayer, players }) {
     //#endregion
 
     //#region Loop för att bygga ett "kort" för varje delatagare som ska läggas till
-    for (let i = 0; i < tornament; i++) {
+    for (let i = 0; i < tournament; i++) {
 
         //Puschar det till vektorn Elements 
         Elemets.push(
@@ -42,7 +42,7 @@ function AddPlayer({ tornament, returnPlayer, players }) {
 
 //Validerar mina props
 AddPlayer.propTypes = {
-    tornament : PropTypes.number.isRequired,
+    tournament : PropTypes.number.isRequired,
     returnPlayer : PropTypes.func.isRequired,
     players : PropTypes.func.isRequired
 }

@@ -1,5 +1,5 @@
-import AddPlayer from './AddPlayer';
-import Table from './Table.jsx';
+import AddPlayer from '../AddPlayer/AddPlayer.jsx';
+import Table from '../Table/Table.jsx';
 import PropTypes from 'prop-types';
 
 //#region klass för spelare
@@ -63,7 +63,7 @@ class Player {
 //#endregion
 
 //Funktion som hanterar applikationens body tar emto den skapade truneringen
-function Body({ tornament, setPlayers, players }) {
+function Body({ tournament, setPlayers, players }) {
 
     //#region Funktion som tar emot alla inmatad spelares namn
     function returnPlayer(playeIn) {
@@ -79,10 +79,10 @@ function Body({ tornament, setPlayers, players }) {
         <>
             {/*Skriver ut modulen för att ange deltager med namn
             En gång för varje spelare som angets när tävlingen satts upp*/ }
-            {tornament != null && <AddPlayer tornament={tornament.antalDeltagare} returnPlayer={returnPlayer} players={players}/>}
+            {tournament != null && <AddPlayer tournament={tournament.antalDeltagare} returnPlayer={returnPlayer} players={players}/>}
 
             {/*Kollar om alla spelare är inmatade och visar tabellen med spelare*/}
-            {(players != null && tornament != null && players.length == tornament.antalDeltagare) && <Table players={[...players].sort((a, b) => {
+            {(players != null && tournament != null && players.length == tournament.antalDeltagare) && <Table players={[...players].sort((a, b) => {
                 
                 //Om spelarna har samma poäng så sorterar den på målskillnad
                 if(b.getPoints() == a.getPoints()){
@@ -102,7 +102,7 @@ function Body({ tornament, setPlayers, players }) {
 
 //Validerar mina props
 Body.propTypes ={
-    tornament : PropTypes.object.isRequired,
+    tournament : PropTypes.object.isRequired,
     setPlayers : PropTypes.func.isRequired,
     players : PropTypes.arrayOf(
         PropTypes.object.isRequired

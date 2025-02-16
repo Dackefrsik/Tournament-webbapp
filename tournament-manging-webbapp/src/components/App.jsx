@@ -1,22 +1,22 @@
 import { useState } from 'react';
-import Navbar from './Navbar'
-import Body from './Boddy';
+import Navbar from './MainSections/Navbar'
+import Body from './MainSections/Boddy';
 
 function App() {
 
   //#region useState
   //useState för att kunna hämta den skapade tävlingen 
-  const [tornament, setTournament] = useState(null);
+  const [tournament, setTournament] = useState(null);
 
   //Usestate för spelare
   const [players, setPlayers] = useState([]);
   //#endregion
 
   //#region Funktion som hämntar den skapade turneringen 
-  function getTournament(currentTornament) {
+  function getTournament(currentTournament) {
 
     //Sätter det inkommande värdet i Tornament i useState
-    setTournament(currentTornament);
+    setTournament(currentTournament);
 
   }
   //#endregion
@@ -35,9 +35,9 @@ function App() {
   return (
     <>
         {/*Komponent för navbar som returnerar parametrarna för trävlingen*/}
-        <Navbar setTornament={getTournament} players={players} setPlayers={setPlayers} clear={clearTournament}/>
+        <Navbar setTornament={getTournament} players={players} setPlayers={setPlayers} clear={clearTournament} />
 
-        {tornament != null && <Body tornament={tornament} setPlayers={setPlayers} players={players}/>}
+        {tournament != null && <Body tournament={tournament} setPlayers={setPlayers} players={players}/>}
     </>
   )
 }
