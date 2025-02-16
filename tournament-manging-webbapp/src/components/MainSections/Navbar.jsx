@@ -6,11 +6,16 @@ import CreateAddResultModal from "../ModalBoys/CreatAddResultModal";
 //Funktion för navbar, den tar emot funktionen som skickas till den som props
 function Navbar({ setTornament, players, setPlayers, clear}) {
 
+    //#region useStates
+    //useState för antalet deltagare
     const [antalDeltagare, setDeltagare] = useState(null)
 
+    //useState för antalet matcher som ska spelas
     const [antalMatcher, setAntalMatcer] = useState(null);
 
+    //useState för spelade matcher
     const [speladeMatcher, setSpeladeMatcher] = useState([]);
+    //#endregion
 
     //#region Funktion för att kunna spara den skapade turneringen 
     function returnTournament(newTournament) {
@@ -26,25 +31,11 @@ function Navbar({ setTornament, players, setPlayers, clear}) {
     }
     //#endregion
 
+    //#region Funktion för att spara undan matcher
     function returnMatches(matches){
         setSpeladeMatcher([...speladeMatcher, matches]);
     }
-
-    useEffect (() => {
-        console.log("Antal matcher ", antalMatcher );
-        console.log("Antal spelade matcher ", speladeMatcher);
-
-        if(antalMatcher === speladeMatcher){
-            console.log("Matcher spelade");
-        }
-        else{
-            console.log("Matcher kvar");
-        }
-    }
-    )
-
-
-        
+    //#endregion
     
     return (
         <>
