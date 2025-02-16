@@ -8,6 +8,10 @@ Skapat med https://coolors.co/
 
 Klicakr man på en rad i tabellen kommer dess spelade matcher med resultat att visas
 
+## 🏆Vinnare
+
+Vinnaren är satt när alla matcher är spelade och knappen för att mata in nya matcher försvinner ur gränssnittet
+
 ## Regler i fotboll ⚽️
 
 3p för vinst 
