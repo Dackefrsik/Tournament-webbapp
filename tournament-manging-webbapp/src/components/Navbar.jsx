@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import CreateAddResultModal from "./CreatAddResultModal";
 
 //Funktion för navbar, den tar emot funktionen som skickas till den som props
-function Navbar({ setTornament, players, setPlayers}) {
+function Navbar({ setTornament, players, setPlayers, clear}) {
 
     const [antalDeltagare, setDeltagare] = useState(null)
 
@@ -17,12 +17,12 @@ function Navbar({ setTornament, players, setPlayers}) {
         setTornament(newTournament);
     }
     //#endregion
-
+    
     return (
         <>
             <div className="sticky-top">
                 <nav className="navbar navbar-expand-lg">
-                    <button className="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <button className="navbar-toggler ms-auto me-2 buttonColor" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse ms-3" id="navbarNav">
@@ -30,9 +30,15 @@ function Navbar({ setTornament, players, setPlayers}) {
                             <li className="nav-item mt-2 me-1 ms-1">
                                 <div id="createTournament" type="button" className="btn buttonColor" data-bs-toggle="modal" data-bs-target="#ModalCreateTournament">Create new tournament</div>
                             </li>
-                            {(antalDeltagare != null  &&  antalDeltagare == players.length) && 
+                            {/*Visas först när alla spelare är angivna*/
+                            (antalDeltagare != null  &&  antalDeltagare == players.length) && 
                             <li className="navbar-item mt-2 me-1 ms-1">
                                 <div className="btn buttonColor" type="button" data-bs-toggle="modal" data-bs-target="#ModalAddResult">Add reasult</div>
+                            </li>}
+                            {/*Visas först när alla spelare är angivna*/
+                            (antalDeltagare != null  &&  antalDeltagare == players.length) &&
+                            <li className="navbar-item mt-2 me-1 ms-1">
+                                <div className="btn buttonColor" type="button" onClick={() => clear()}>Clear tournament</div>
                             </li>}
                         </ul>
                     </div>
@@ -45,6 +51,8 @@ function Navbar({ setTornament, players, setPlayers}) {
             {/*Modal för att lägga till resultat, går först att visa när alla spelare 
             är angivna med namn*/}
             <CreateAddResultModal players={players} setPlayers={setPlayers}/> 
+
+
         </>
     );
 }
@@ -55,7 +63,8 @@ Navbar.propTypes = {
     players : PropTypes.arrayOf(
             PropTypes.object.isRequired
         ).isRequired,
-    setPlayers : PropTypes.func.isRequired
+    setPlayers : PropTypes.func.isRequired, 
+    clear : PropTypes.func.isRequired
 }
 
 export default Navbar;

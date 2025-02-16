@@ -21,11 +21,21 @@ function App() {
   }
   //#endregion
 
+  //#region Funktion för att tömma nuvarande turnering och börja om
+  function clearTournament(){
+
+    console.log("Running function clear")
+    //Tömmer turnings och spelarobjeklt
+    setTournament(null);
+    setPlayers([]);
+  }
+  //#endregion
+
   //Returnerar alla kmomponenter som ska ingå i vår DOM
   return (
     <>
         {/*Komponent för navbar som returnerar parametrarna för trävlingen*/}
-        <Navbar setTornament={getTournament} players={players} setPlayers={setPlayers}/>
+        <Navbar setTornament={getTournament} players={players} setPlayers={setPlayers} clear={clearTournament}/>
 
         {tornament != null && <Body tornament={tornament} setPlayers={setPlayers} players={players}/>}
     </>
