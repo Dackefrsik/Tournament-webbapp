@@ -20,17 +20,31 @@ function AddPlayerToTable({ i, player }) {
             //Bygger upp en rad för varje match
             for(let i = 0; i < player.getMatches().length; i++){
 
+                //Kontroll ifall det är vinst eller förlust för att göra det tydligare för anväändaren 
+                let color = "";
+                if((player.getMatches()[i].getHome() == player.getName() && player.getMatches()[i].getHomeGoal() > player.getMatches()[i].getAwayGoal()) || player.getMatches()[i].getAway() == player.getName() && player.getMatches()[i].getAwayGoal() > player.getMatches()[i].getHomeGoal()){
+                    
+                    //Grön vid vinst
+                    color = "#00FF00";
+                }
+                else{
+
+                    //Röd vid förlust 
+                    color = "#FF0000";
+                }
                 const addMatch = 
                     <tr className="matchRowColor" key={i}>
                         <td className="text-center matchRowColor">{player.getMatches()[i].getHome()}</td>
                         <td className="text-center matchRowColor">{player.getMatches()[i].getHomeGoal()}</td>
-                        <td className="text-center matchRowColor">-</td>
+                        <td className="text-center" style={{backgroundColor: color}}>-</td>
                         <td className="text-center matchRowColor">{player.getMatches()[i].getAwayGoal()}</td>
                         <td className="text-center matchRowColor">{player.getMatches()[i].getAway()}</td>
                     </tr>;
                 
                 newMatches.push(addMatch);
             }
+
+            //Kopierar tidigare matcher och sparar undan dem så att alla kan visas
             setMatches([...matches, newMatches ])
             setToggle(false);
         }

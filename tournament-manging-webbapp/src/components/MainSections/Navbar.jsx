@@ -1,5 +1,5 @@
 import CreateTornamentModal from "../ModalBoys/CreateTornamenModal";
-import {useEffect, useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import CreateAddResultModal from "../ModalBoys/CreatAddResultModal";
 
