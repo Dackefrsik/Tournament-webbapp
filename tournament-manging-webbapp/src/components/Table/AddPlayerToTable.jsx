@@ -36,7 +36,7 @@ function AddPlayerToTable({ i, player }) {
                     <tr className="matchRowColor" key={i}>
                         <td className="text-center matchRowColor">{player.getMatches()[i].getHome()}</td>
                         <td className="text-center matchRowColor">{player.getMatches()[i].getHomeGoal()}</td>
-                        <td className="text-center" style={{backgroundColor: color}}>-</td>
+                        <td className="text-center" style={{backgroundColor: color}}>VS</td>
                         <td className="text-center matchRowColor">{player.getMatches()[i].getAwayGoal()}</td>
                         <td className="text-center matchRowColor">{player.getMatches()[i].getAway()}</td>
                     </tr>;

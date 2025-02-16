@@ -28,7 +28,7 @@ class match {
 }
 //#endregion
 
-function CreateAddResultModal({ setPlayers, players, returnMatches }) {
+function CreateAddResultModal({ setPlayers, players, matches, setMatches, }) {
 
     //#region UseRefs
     //useRef för att kunna hämta värden från formuläret 
@@ -43,7 +43,7 @@ function CreateAddResultModal({ setPlayers, players, returnMatches }) {
 
     //#region Usestates
     //Usestate för matcher
-    const [matches, setMatch] = useState([]);
+    //const [matches, setMatch] = useState([]);
 
     //Usestate för att gömma modalen 
     const [modal, setModal] = useState("");
@@ -117,13 +117,12 @@ function CreateAddResultModal({ setPlayers, players, returnMatches }) {
 
                                     //Skapar en ny match
                                     newMatch = new match(homeRef.current.value, awayRef.current.value, homeGoalRef.current.value, awayGoalRef.current.value);
-                                    returnMatches(newMatch);
 
                                     //Kallar på funktion för att tömma formuläret
                                     clearForm();
 
                                     //Setter matchen genom att kopiera de tidigare och lägga till den nya
-                                    setMatch(prevMatches => [...prevMatches, newMatch]);
+                                    setMatches(prevMatches => [...prevMatches, newMatch]);
 
                                     //Går igenom alla splare
                                     setPlayers(players => players.map(player => {
@@ -295,7 +294,8 @@ function CreateAddResultModal({ setPlayers, players, returnMatches }) {
 CreateAddResultModal.propTypes = {
     setPlayers : PropTypes.func.isRequired,
     players : PropTypes.array.isRequired,
-    returnMatches : PropTypes.func.isRequired
+    matches : PropTypes.array.isRequired,
+    setMatches : PropTypes.func.isRequired
 }
 
 export default CreateAddResultModal
