@@ -4,7 +4,7 @@
 
 Skapat med https://coolors.co/
 
-## Visa matcher 🎮⚽️🏆
+## 🎮⚽️🏆 Visa matcher 
 
 Klicakr man på en rad i tabellen kommer dess spelade matcher med resultat att visas
 
@@ -12,11 +12,11 @@ Klicakr man på en rad i tabellen kommer dess spelade matcher med resultat att v
 
 Vinnaren är satt när alla matcher är spelade och knappen för att mata in nya matcher försvinner ur gränssnittet
 
-## Regler i fotboll ⚽️
+## ⚽️ Regler i fotboll 
 
 3p för vinst 
 1p för oavgjort 
 
-## Viktigt ❗
+## ❗ Viktigt 
 
 För tillfället så är webbappen anpassad och byggd utifrån hur poängen räknas i fotboll
