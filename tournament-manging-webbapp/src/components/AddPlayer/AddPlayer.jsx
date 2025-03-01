@@ -20,7 +20,7 @@ function AddPlayer({ tournament, returnPlayer, players }) {
 
         //Puschar det till vektorn Elements 
         Elemets.push(
-            <div className="addPlayer p-2 m-1 rounded-3 addPlayerCard">
+            <div className="addPlayer p-2 m-1 rounded-3 addPlayerCard" key={i}>
                 <h3 className="mt-2 ms-2" >
                     Player {i + 1}
                 </h3>
@@ -44,7 +44,9 @@ function AddPlayer({ tournament, returnPlayer, players }) {
 AddPlayer.propTypes = {
     tournament : PropTypes.number.isRequired,
     returnPlayer : PropTypes.func.isRequired,
-    players : PropTypes.func.isRequired
+    players : PropTypes.arrayOf(
+            PropTypes.object.isRequired
+        )
 }
 
 export default AddPlayer;

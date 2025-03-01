@@ -1,10 +1,12 @@
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
+import AddSportsToModal from "./AddSportsToModal";
 
 //#region Klass med en konstruktor som skapar ett objekt av turneringen 
 class tournament {
 
-    constructor(antalDeltagare, antalMatcher) {
+    constructor(sport, antalDeltagare, antalMatcher) {
+        this.sport = sport,
         this.antalDeltagare = antalDeltagare,
         this.antalMatcher = antalMatcher
     }
@@ -25,6 +27,7 @@ function CreateTornamentModalBody({ returnTournament }) {
     const antalMatcherRef = useRef(null);
     const buttonSubmit = useRef(null);
     const modalRef = useRef(null);
+    const changeSportRef = useRef(null);
     //#endregion
  
     //#region useStates
@@ -52,13 +55,14 @@ function CreateTornamentModalBody({ returnTournament }) {
         //Tar emot värden för spelare och matcher
         const antalSpelare = Number(antalSpelareRef.current.value);
         const antalMatcher = Number(antalMatcherRef.current.value);
+        const sport = changeSportRef.current.value;
 
         //Kollar om det angets ett antal spelare som är fler än 1
         if(antalSpelare && antalSpelare != null && antalSpelare > 1){
             //Kollar om antal matcher är fler än noll
             if(antalMatcher && antalMatcher != null && antalMatcher > 0){
                 //Skapar en ny funktion utifrån konstrunktorn i klassen tournament
-                let newTournament = new tournament(antalSpelare, antalMatcher);
+                let newTournament = new tournament(sport, antalSpelare, antalMatcher);
 
                 //Tömmer input fälten i modalen 
                 antalSpelareRef.current.value = "";
@@ -97,7 +101,11 @@ function CreateTornamentModalBody({ returnTournament }) {
         setErrorTextSpelare("");
     }
     //#endregion 
-   
+
+    function changeValue(){
+        console.log("Vald sport " + changeSportRef.current.value);
+    }
+
     return (
         <div className="modal fade" id="ModalCreateTournament" tabIndex="-1" aria-hidden="true" ref={modalRef}>
             <div className="modal-dialog">
@@ -110,6 +118,12 @@ function CreateTornamentModalBody({ returnTournament }) {
                         <div>
                             <form action="" className="form-group">
                                 <div className="d-flex flex-column">
+
+                                    <select name="selectTeam" id="selectTeam" className="form-control" onChange={() => changeValue()} ref={changeSportRef}>
+                                        <option disabled selected>Välj sport</option>
+                                        <AddSportsToModal/>
+                                    </select>
+
                                     {/*Skriver ut errortext*/}
                                     <p className="textError"> {errorTextSpelare} </p>
                                     <div className="form-floating">
