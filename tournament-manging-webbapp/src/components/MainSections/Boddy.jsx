@@ -6,12 +6,13 @@ import PropTypes from 'prop-types';
 class Player {
 
     //Konstruktor för att skapa objekt av en spelare
-    constructor(name, points = 0, games = 0, goalDif = 0, matches = []) {
+    constructor(name, points, games, goalDif, matches, sport) {
         this.name = name;
         this.points = points;
         this.games = games;
         this.goalDif = goalDif;
         this.matches = matches;
+        this.sport = sport;
     }
 
     //Get för spelarnamn
@@ -21,12 +22,27 @@ class Player {
 
     //Funktion för att öka poäng vid vinst
     incrementPoint() {
-        return new Player(this.name, this.points + 3, this.games, this.goalDif, this.matches);
+        if(this.sport == "Fotboll" || this.sport == "Ishockey" || this.sport == "Innebandy"){
+            return new Player(this.name, this.points + 3, this.games, this.goalDif, this.matches, this.sport);
+
+        }
+        else if(this.sport == "Rugby"){
+            return new Player(this.name, this.points + 4, this.games, this.goalDif, this.matches, this.sport);
+        }
+        else if(this.sport == "Handboll"){
+            return new Player(this.name, this.points + 2, this.games, this.goalDif, this.matches, this.sport);
+        }
+
     }
 
     //Funktion för att öka poäng vid oavgjort
     incrementPointDraw() {
-        return new Player(this.name, this.points + 1, this.games, this.goalDif, this.matches);
+        if(this.sport == "Fotboll" || this.sport == "Handboll" || this.sport == "Innebandy" || this.sport == "Ishockey"){
+            return new Player(this.name, this.points + 1, this.games, this.goalDif, this.matches, this.sport);
+        }
+        else if(this.sport == "Rugby"){
+            return new Player(this.name, this.points + 2, this.games, this.goalDif, this.matches, this.sport);
+        }
     }
 
     //Funktion för att hämta poäng
@@ -36,13 +52,13 @@ class Player {
 
     //Funktion som plussar på målskillnaden
     addGoalDif(goalDif) {
-        return new Player(this.name, this.points, this.games, this.goalDif + goalDif, this.matches);
+        return new Player(this.name, this.points, this.games, this.goalDif + goalDif, this.matches, this.sport);
 
     }
 
     //Funktion som ökar målskillnaden
     reduceGoalDif(goalDif) {
-        return new Player(this.name, this.points, this.games, this.goalDif - goalDif, this.matches);
+        return new Player(this.name, this.points, this.games, this.goalDif - goalDif, this.matches, this.sport);
     }
 
     //Funktion som hämtar målskillnaden
@@ -52,7 +68,7 @@ class Player {
 
     //Funktion som lägger till en ny match 
     addMatch(newMatch){
-        return new Player(this.name, this.points, this.games, this.goalDif, [...this.matches, newMatch])
+        return new Player(this.name, this.points, this.games, this.goalDif, [...this.matches, newMatch], this.sport)
     }
 
     //Funktion som hämtar spelade matcher
@@ -67,7 +83,7 @@ function Body({ tournament, setPlayers, players }) {
 
     //#region Funktion som tar emot alla inmatad spelares namn
     function returnPlayer(playeIn) {
-        let newPlayer = new Player(playeIn);
+        let newPlayer = new Player(playeIn, 0, 0, 0, [], tournament.sport);
 
         console.log(newPlayer);
 
@@ -77,7 +93,7 @@ function Body({ tournament, setPlayers, players }) {
 
     return (
         <>
-            {/*Skriver ut modulen för att ange deltager med namn
+            {/*Skriver ut komponenten för att ange deltager med namn
             En gång för varje spelare som angets när tävlingen satts upp*/ }
             {tournament != null && <AddPlayer tournament={tournament.antalDeltagare} returnPlayer={returnPlayer} players={players}/>}
 

@@ -29,7 +29,7 @@ function AddPlayerForm({ handleVisibility, buttonID, returnPlayer, players }) {
             if (inputNameRef.current.value.trim().length >= 3) {
                 //Kollar om spelaren redan är registrerad
                 if (!playerExist(inputNameRef.current.value.trim())) {
-                    returnPlayer(inputNameRef.current.value)
+                    returnPlayer(inputNameRef.current.value);
                     handleVisibility(buttonID);
                 }
                 //Felmedelande om angiven spelare redan existerar
