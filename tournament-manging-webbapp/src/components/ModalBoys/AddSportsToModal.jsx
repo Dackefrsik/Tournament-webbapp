@@ -5,7 +5,7 @@ function AddSportsToModal(){
 
     //#region Funktionalitet för att skriva ut olika sporter
 
-    let sports = ["Fotboll", "Ishockey", "Handboll", "Innebandy", "Basket", "Rugby"];
+    let sports = ["Fotboll", "Ishockey", "Handboll", "Innebandy", "Rugby"];
 
     let elemnts = [];
 

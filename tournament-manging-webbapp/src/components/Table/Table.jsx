@@ -2,7 +2,7 @@ import AddPlayerToTable from "./AddPlayerToTable"
 import PropTypes from "prop-types";
 //Funktion för komponent som tar emot alla spelare
 //och returnerar en tabell över turneringen
-function Table({ players }) {
+function Table({ players, tournament, matches }) {
 
     //Vektor som håller i alla raderna för
     //respektive spelare
@@ -12,7 +12,7 @@ function Table({ players }) {
     for (let i = 0; i < players.length; i++) {
 
         //Skapar en ny rad utifrån komponenten AddPlayerTpTable
-        let playerRow = <AddPlayerToTable i={i} player={players[i]} />
+        let playerRow = <AddPlayerToTable i={i} player={players[i]} tournament={tournament} matches={matches} />
 
         //Pushar raden till playerRows
         playerRows.push(playerRow);
@@ -43,7 +43,9 @@ function Table({ players }) {
 
 //Validerar mina props
 Table.propTypes = {
-    players : PropTypes.object.isRequired
+    players : PropTypes.object.isRequired,
+    tournament : PropTypes.object.isRequired,
+    matches : PropTypes.array.isRequired
 }
 
 export default Table

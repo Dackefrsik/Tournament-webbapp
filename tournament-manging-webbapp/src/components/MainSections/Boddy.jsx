@@ -79,7 +79,7 @@ class Player {
 //#endregion
 
 //Funktion som hanterar applikationens body tar emto den skapade truneringen
-function Body({ tournament, setPlayers, players }) {
+function Body({ tournament, setPlayers, players, matches }) {
 
     //#region Funktion som tar emot alla inmatad spelares namn
     function returnPlayer(playeIn) {
@@ -98,7 +98,7 @@ function Body({ tournament, setPlayers, players }) {
             {tournament != null && <AddPlayer tournament={tournament.antalDeltagare} returnPlayer={returnPlayer} players={players}/>}
 
             {/*Kollar om alla spelare är inmatade och visar tabellen med spelare*/}
-            {(players != null && tournament != null && players.length == tournament.antalDeltagare) && <Table players={[...players].sort((a, b) => {
+            {(players != null && tournament != null && players.length == tournament.antalDeltagare) && <Table tournament={tournament} matches={matches} players={[...players].sort((a, b) => {
                 
                 //Om spelarna har samma poäng så sorterar den på målskillnad
                 if(b.getPoints() == a.getPoints()){
@@ -122,7 +122,8 @@ Body.propTypes ={
     setPlayers : PropTypes.func.isRequired,
     players : PropTypes.arrayOf(
         PropTypes.object.isRequired
-    )
+    ),
+    matches : PropTypes.array.isRequired
 }
 
 export default Body

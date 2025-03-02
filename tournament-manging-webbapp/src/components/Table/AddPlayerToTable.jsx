@@ -2,13 +2,15 @@ import PropTypes from "prop-types"
 import { useState } from "react";
 //Funktion som reurenerar rader för en spelare
 //Tar emot index och namn 
-function AddPlayerToTable({ i, player }) {
+function AddPlayerToTable({ i, player, tournament, matches }) {
 
     //#region useStates för matcher och toggle 
-    const[matches, setMatches] = useState([]);
+    const[playerMatches, setMatches] = useState([]);
 
     const[toggle, setToggle] = useState(true);
     //#endregion
+
+    let victoryColor = " #FFD700";
 
     //#region funktion för att visa alla spelade matcher
     function clickTable(){
@@ -60,13 +62,13 @@ function AddPlayerToTable({ i, player }) {
     return (
         <>
             <tr key={i} className="" onClick={() => clickTable(i)}>
-                <td className="text-center ">{i + 1}</td>
+                <td className="text-center " style={i + 1 == 1 && matches.length === tournament.antalMatcher ? {background : victoryColor} : {}}>{i + 1}</td>
                 <td className="text-center ">{player.getName()}</td>
                 <td className="text-center ">{player.getPoints()} pt</td>
                 <td className="text-center ">{player.getMatches().length}</td>
                 <td className="text-center ">{player.getGoalDif()}</td>    
             </tr>
-            {matches}
+            {playerMatches}
         </>
 
     )
@@ -75,7 +77,9 @@ function AddPlayerToTable({ i, player }) {
 //Validerar mina props
 AddPlayerToTable.propTypes = {
     i : PropTypes.number.isRequired,
-    player : PropTypes.object.isRequired
+    player : PropTypes.object.isRequired,
+    tournament : PropTypes.object.isRequired,
+    matches : PropTypes.array.isRequired
 }
 
 export default AddPlayerToTable
