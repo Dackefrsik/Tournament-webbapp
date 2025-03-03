@@ -17,8 +17,9 @@ function AddPlayerToTable({ i, player, tournament, matches }) {
 
         //Toggeln kollar om vi ska visa eller gömma matcherna som spelats
         if(toggle){
-            const newMatches = [];
 
+            const newMatches = [];
+            
             //Bygger upp en rad för varje match
             for(let i = 0; i < player.getMatches().length; i++){
 
@@ -47,7 +48,7 @@ function AddPlayerToTable({ i, player, tournament, matches }) {
             }
 
             //Kopierar tidigare matcher och sparar undan dem så att alla kan visas
-            setMatches([...matches, newMatches ])
+            setMatches(newMatches)
             setToggle(false);
         }
         else{

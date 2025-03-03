@@ -45,6 +45,14 @@ class Player {
         }
     }
 
+    incrementPointSuddenWin(){
+        return new Player(this.name, this.points + 2, this.games, this.goalDif, this.matches, this.sport);
+    }
+
+    incrementPointSuddenDefete(){
+        return new Player(this.name, this.points + 1, this.games, this.goalDif, this.matches, this.sport);
+    }
+
     //Funktion för att hämta poäng
     getPoints() {
         return this.points;

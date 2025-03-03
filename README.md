@@ -18,18 +18,18 @@ Vinnaren pressenteras med #FFD700
 3p för vinst 
 1p för oavgjort 
 
-## Regler i Handboll
+## 🤾 Regler i Handboll
 
 2p för vunst
 1p för oavgjort
 
-## Regler i Ishockey/ innebandy
+## 🏒 Regler i Ishockey/ innebandy
 
 3p för vinst under ordinarie tid
 2p för vinst på övertid eller straffar
 1p förlust efter ordinarie tid
 
-## Regler i rugby 
+## 🏈 Regler i rugby 
 
 4p för vinst
 2p för oavgjort

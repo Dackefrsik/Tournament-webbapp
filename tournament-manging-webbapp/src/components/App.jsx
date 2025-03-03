@@ -39,7 +39,7 @@ function App() {
   return (
     <>
         {/*Komponent för navbar som returnerar parametrarna för trävlingen*/}
-        <Navbar setTornament={getTournament} players={players} setPlayers={setPlayers} matches={matches} setMatches={setMatch} clear={clearTournament} />
+        <Navbar setTournament={getTournament} players={players} setPlayers={setPlayers} matches={matches} setMatches={setMatch} clear={clearTournament}  />
 
         {tournament != null && <Body tournament={tournament} setPlayers={setPlayers} players={players} matches={matches}/>}
     </>

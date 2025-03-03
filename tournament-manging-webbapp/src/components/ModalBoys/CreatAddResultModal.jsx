@@ -28,7 +28,7 @@ class match {
 }
 //#endregion
 
-function CreateAddResultModal({ setPlayers, players, matches, setMatches, }) {
+function CreateAddResultModal({ setPlayers, players, matches, setMatches, tournament}) {
 
     //#region UseRefs
     //useRef för att kunna hämta värden från formuläret 
@@ -36,6 +36,7 @@ function CreateAddResultModal({ setPlayers, players, matches, setMatches, }) {
     const homeGoalRef = useRef("");
     const awayRef = useRef("");
     const awayGoalRef = useRef("");
+    const charedPoint = useRef("");
 
     //Usref för modalen 
     const modalRef = useRef("");
@@ -66,6 +67,14 @@ function CreateAddResultModal({ setPlayers, players, matches, setMatches, }) {
         if (modalRef.current) {
             //Inisialiserar en ny modal med den nya värdena 
             setModal(new window.bootstrap.Modal(modalRef.current));
+
+
+            modalRef.current.addEventListener("shown.bs.modal", () => {
+                if(charedPoint.current){
+                    charedPoint.current.checked = false;
+                }
+
+            })
         }
     }, []);
     //#endregion
@@ -80,6 +89,8 @@ function CreateAddResultModal({ setPlayers, players, matches, setMatches, }) {
     function Match() {
         //Kolar om det angivits ett namn för hemspelaren
         if (homeRef.current && homeRef.current.value.trim() != "") {
+
+            console.log(charedPoint.current.checked);
 
             //Kollar om den angivna hemmaspelaren är en faktisk hemmaspelare
             if (playerExist(homeRef.current.value.trim())) {
@@ -134,7 +145,14 @@ function CreateAddResultModal({ setPlayers, players, matches, setMatches, }) {
                                             if (newMatch.homeGoal > newMatch.awayGoal) {
                                                 modal.hide();
 
-                                                return player.incrementPoint().addGoalDif(newMatch.homeGoal - newMatch.awayGoal).addMatch(newMatch);
+                                                if(charedPoint.current.checked){
+                                                    return player.incrementPointSuddenWin().addGoalDif(newMatch.homeGoal - newMatch.awayGoal).addMatch(newMatch);
+ 
+                                                }
+                                                else{
+                                                    return player.incrementPoint().addGoalDif(newMatch.homeGoal - newMatch.awayGoal).addMatch(newMatch);
+
+                                                }
                                             }
                                             //Kollar om det var oavgjort
                                             else if (newMatch.homeGoal == newMatch.awayGoal) {
@@ -144,7 +162,13 @@ function CreateAddResultModal({ setPlayers, players, matches, setMatches, }) {
                                             //Förlust
                                             else {
                                                 modal.hide();
-                                                return player.reduceGoalDif(newMatch.awayGoal - newMatch.homeGoal).addMatch(newMatch);
+                                                if(charedPoint.current.checked){
+                                                    return player.incrementPointSuddenDefete().reduceGoalDif(newMatch.awayGoal - newMatch.homeGoal).addMatch(newMatch);
+
+                                                }
+                                                else{
+                                                    return player.reduceGoalDif(newMatch.awayGoal - newMatch.homeGoal).addMatch(newMatch);
+                                                }
                                             }
                                         }
                                         //Kollar om spearen var borta
@@ -152,7 +176,13 @@ function CreateAddResultModal({ setPlayers, players, matches, setMatches, }) {
                                             //Kollar om det var förlust
                                             if (newMatch.homeGoal > newMatch.awayGoal) {
                                                 modal.hide();
-                                                return player.reduceGoalDif(newMatch.homeGoal - newMatch.awayGoal).addMatch(newMatch);
+
+                                                if(charedPoint.current.checked){
+                                                    return player.incrementPointSuddenDefete().reduceGoalDif(newMatch.homeGoal - newMatch.awayGoal).addMatch(newMatch);
+                                                }
+                                                else{
+                                                    return player.reduceGoalDif(newMatch.homeGoal - newMatch.awayGoal).addMatch(newMatch);
+                                                }
                                             }
                                             //Kollar om det var oavgjort
                                             else if (newMatch.homeGoal == newMatch.awayGoal) {
@@ -162,7 +192,13 @@ function CreateAddResultModal({ setPlayers, players, matches, setMatches, }) {
                                             //Seger
                                             else {
                                                 modal.hide();
-                                                return player.incrementPoint().addGoalDif(newMatch.awayGoal - newMatch.homeGoal).addMatch(newMatch);
+                                                
+                                                if(charedPoint.current.checked){
+                                                    return player.incrementPointSuddenWin().addGoalDif(newMatch.awayGoal - newMatch.homeGoal).addMatch(newMatch);
+                                                }
+                                                else{
+                                                    return player.incrementPoint().addGoalDif(newMatch.awayGoal - newMatch.homeGoal).addMatch(newMatch);
+                                                }
                                             }
                                         }
                                         modal.hide();
@@ -273,6 +309,13 @@ function CreateAddResultModal({ setPlayers, players, matches, setMatches, }) {
                                         <input type="number" name="AwayGoal" className="form-control" id="antalMatcher" min="0" ref={awayGoalRef} />
                                         <label htmlFor="AwayGoal">Antal mål borta</label>
                                     </div>
+                                    
+                                    {(tournament != null && (tournament.sport == "Ishockey" || tournament.sport == "Innebandy")) && 
+                                    <div className="btn-toolbar mt-3" role="toolbar" aria-label="Basic checkbox toggle button group">
+                                        <input type="checkbox" name="point" id="Sudden" className="btn-check" autoComplete="off" ref={charedPoint} value={false}/>
+                                        <label htmlFor="Sudden" className="btn btn-outline-primary">Sudden death/ penalties</label>
+                                    </div>}
+
                                 </div>
                             </form>
                         </div>
@@ -295,7 +338,8 @@ CreateAddResultModal.propTypes = {
     setPlayers : PropTypes.func.isRequired,
     players : PropTypes.array.isRequired,
     matches : PropTypes.array.isRequired,
-    setMatches : PropTypes.func.isRequired
+    setMatches : PropTypes.func.isRequired,
+    tournament : PropTypes.object
 }
 
-export default CreateAddResultModal
+export default CreateAddResultModal;
