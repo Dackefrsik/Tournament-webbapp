@@ -36,4 +36,4 @@ Vinnaren pressenteras med #FFD700
 
 ## ❗ Viktigt 
 
-Går inte att administrera poäng för övertid i Ishockey/ Innebandy
+Just nu finns det inget viktigt att anmärka på
