@@ -10,6 +10,7 @@ function AddPlayerToTable({ i, player, tournament, matches }) {
     const[toggle, setToggle] = useState(true);
     //#endregion
 
+    //Färgen som används för att markera att spelaren på position 1 i tabellen har vunnit
     let victoryColor = " #FFD700";
 
     //#region funktion för att visa alla spelade matcher
@@ -35,6 +36,8 @@ function AddPlayerToTable({ i, player, tournament, matches }) {
                     //Röd vid förlust 
                     color = "#FF0000";
                 }
+
+                //Skapar en rad för nuvarande match i loopen
                 const addMatch = 
                     <tr className="matchRowColor" key={i}>
                         <td className="text-center matchRowColor">{player.getMatches()[i].getHome()}</td>
@@ -49,9 +52,12 @@ function AddPlayerToTable({ i, player, tournament, matches }) {
 
             //Kopierar tidigare matcher och sparar undan dem så att alla kan visas
             setMatches(newMatches)
+
+            //Sätter togle för att visa matcher till false
             setToggle(false);
         }
         else{
+            //Sätter togle för att visa matcher till true
             setToggle(true);
 
             //Tar bort matcherna

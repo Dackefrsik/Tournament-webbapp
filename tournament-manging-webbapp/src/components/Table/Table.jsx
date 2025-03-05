@@ -25,7 +25,7 @@ function Table({ players, tournament, matches }) {
             <table className="table table-bordered" >
                 <thead>
                     <tr key={0}>
-                        <th scope="col" className="text-center w-20">Place</th>
+                        <th scope="col" className="text-center w-20"w>Place</th>
                         <th scope="col" className="text-center w-5">Name</th>
                         <th scope="col" className="text-center w-20">Points</th>
                         <th scope="col" className="text-center w-20">GP</th>

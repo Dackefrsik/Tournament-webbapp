@@ -5,6 +5,7 @@ import AddSportsToModal from "./AddSportsToModal";
 //#region Klass med en konstruktor som skapar ett objekt av turneringen 
 class tournament {
 
+    //Konstruktor för att skapa en turnering
     constructor(sport, antalDeltagare, antalMatcher) {
         this.sport = sport,
         this.antalDeltagare = antalDeltagare,
@@ -102,10 +103,6 @@ function CreateTornamentModalBody({ returnTournament }) {
     }
     //#endregion 
 
-    function changeValue(){
-        console.log("Vald sport " + changeSportRef.current.value);
-    }
-
     return (
         <div className="modal fade" id="ModalCreateTournament" tabIndex="-1" aria-hidden="true" ref={modalRef}>
             <div className="modal-dialog">
@@ -119,7 +116,7 @@ function CreateTornamentModalBody({ returnTournament }) {
                             <form action="" className="form-group">
                                 <div className="d-flex flex-column">
 
-                                    <select name="selectTeam" id="selectTeam" className="form-control" onChange={() => changeValue()} ref={changeSportRef}>
+                                    <select name="selectTeam" id="selectTeam" className="form-control" ref={changeSportRef}>
                                         <option disabled selected>Välj sport</option>
                                         <AddSportsToModal/>
                                     </select>

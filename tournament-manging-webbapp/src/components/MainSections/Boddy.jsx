@@ -45,10 +45,12 @@ class Player {
         }
     }
 
+    //Funktion för att öka poängen vid vinst i sudden eller på straffar i Innebandy eller Hockey
     incrementPointSuddenWin(){
         return new Player(this.name, this.points + 2, this.games, this.goalDif, this.matches, this.sport);
     }
 
+    //Funktion för att öka poängen vid förlust i sudden eller på straffar i Innebandy eller Hockey
     incrementPointSuddenDefete(){
         return new Player(this.name, this.points + 1, this.games, this.goalDif, this.matches, this.sport);
     }
@@ -93,8 +95,7 @@ function Body({ tournament, setPlayers, players, matches }) {
     function returnPlayer(playeIn) {
         let newPlayer = new Player(playeIn, 0, 0, 0, [], tournament.sport);
 
-        console.log(newPlayer);
-
+        //Kopierar tidigare spelare och lägger till den nya
         setPlayers(prevIn => [...prevIn, newPlayer]);        
     }
     //#endregion
