@@ -2,7 +2,7 @@ import Body from './MainSections/Boddy';
 
 function App() {
 
-  //Returnerar alla kmomponenter som ska ingå i vår DOM
+  //Returnerar Bodykomponenten
   return (
     <Body/>
   )
