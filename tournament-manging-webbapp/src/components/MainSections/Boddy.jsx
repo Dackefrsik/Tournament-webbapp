@@ -1,138 +1,49 @@
-import AddPlayer from '../AddPlayer/AddPlayer.jsx';
-import Table from '../Table/Table.jsx';
-import PropTypes from 'prop-types';
+import { useState } from 'react';
+import Navbar from './Navbar'
+import Main from './Main';
 
-//#region klass för spelare
-class Player {
+function Boddy() {
 
-    //Konstruktor för att skapa objekt av en spelare
-    constructor(name, points, games, goalDif, matches, sport) {
-        this.name = name;
-        this.points = points;
-        this.games = games;
-        this.goalDif = goalDif;
-        this.matches = matches;
-        this.sport = sport;
-    }
+  //#region useState
+  //useState för att kunna hämta den skapade tävlingen 
+  const [tournament, setTournament] = useState(null);
 
-    //Get för spelarnamn
-    getName() {
-        return this.name;
-    }
+  //useState för spelare
+  const [players, setPlayers] = useState([]);
 
-    //Funktion för att öka poäng vid vinst
-    incrementPoint() {
-        if(this.sport == "Fotboll" || this.sport == "Ishockey" || this.sport == "Innebandy"){
-            return new Player(this.name, this.points + 3, this.games, this.goalDif, this.matches, this.sport);
+  //useState för matcher
+  const [matches, setMatch] = useState([]);
+  //#endregion
 
-        }
-        else if(this.sport == "Rugby"){
-            return new Player(this.name, this.points + 4, this.games, this.goalDif, this.matches, this.sport);
-        }
-        else if(this.sport == "Handboll"){
-            return new Player(this.name, this.points + 2, this.games, this.goalDif, this.matches, this.sport);
-        }
+  //#region Funktion som hämntar den skapade turneringen 
+  function getTournament(currentTournament) {
 
-    }
+    //Sätter det inkommande värdet i Tornament i useState
+    setTournament(currentTournament);
 
-    //Funktion för att öka poäng vid oavgjort
-    incrementPointDraw() {
-        if(this.sport == "Fotboll" || this.sport == "Handboll" || this.sport == "Innebandy" || this.sport == "Ishockey"){
-            return new Player(this.name, this.points + 1, this.games, this.goalDif, this.matches, this.sport);
-        }
-        else if(this.sport == "Rugby"){
-            return new Player(this.name, this.points + 2, this.games, this.goalDif, this.matches, this.sport);
-        }
-    }
+  }
+  //#endregion
 
-    //Funktion för att öka poängen vid vinst i sudden eller på straffar i Innebandy eller Hockey
-    incrementPointSuddenWin(){
-        return new Player(this.name, this.points + 2, this.games, this.goalDif, this.matches, this.sport);
-    }
+  //#region Funktion för att tömma nuvarande turnering och börja om
+  function clearTournament(){
 
-    //Funktion för att öka poängen vid förlust i sudden eller på straffar i Innebandy eller Hockey
-    incrementPointSuddenDefete(){
-        return new Player(this.name, this.points + 1, this.games, this.goalDif, this.matches, this.sport);
-    }
+    console.log("Running function clear")
+    //Tömmer turnings och spelarobjeklt
+    setTournament(null);
+    setPlayers([]);
+    setMatch([]);
+  }
+  //#endregion
 
-    //Funktion för att hämta poäng
-    getPoints() {
-        return this.points;
-    }
+  //Returnerar alla kmomponenter som ska ingå i vår DOM
+  return (
+    <>
+        {/*Komponent för navbar som returnerar parametrarna för trävlingen*/}
+        <Navbar setTournament={getTournament} players={players} setPlayers={setPlayers} matches={matches} setMatches={setMatch} clear={clearTournament}  />
 
-    //Funktion som plussar på målskillnaden
-    addGoalDif(goalDif) {
-        return new Player(this.name, this.points, this.games, this.goalDif + goalDif, this.matches, this.sport);
-
-    }
-
-    //Funktion som ökar målskillnaden
-    reduceGoalDif(goalDif) {
-        return new Player(this.name, this.points, this.games, this.goalDif - goalDif, this.matches, this.sport);
-    }
-
-    //Funktion som hämtar målskillnaden
-    getGoalDif() {
-        return this.goalDif;
-    }
-
-    //Funktion som lägger till en ny match 
-    addMatch(newMatch){
-        return new Player(this.name, this.points, this.games, this.goalDif, [...this.matches, newMatch], this.sport)
-    }
-
-    //Funktion som hämtar spelade matcher
-    getMatches(){
-        return this.matches;
-    }
-}
-//#endregion
-
-//Funktion som hanterar applikationens body tar emto den skapade truneringen
-function Body({ tournament, setPlayers, players, matches }) {
-
-    //#region Funktion som tar emot alla inmatad spelares namn
-    function returnPlayer(playeIn) {
-        let newPlayer = new Player(playeIn, 0, 0, 0, [], tournament.sport);
-
-        //Kopierar tidigare spelare och lägger till den nya
-        setPlayers(prevIn => [...prevIn, newPlayer]);        
-    }
-    //#endregion
-
-    return (
-        <>
-            {/*Skriver ut komponenten för att ange deltager med namn
-            En gång för varje spelare som angets när tävlingen satts upp*/ }
-            {tournament != null && <AddPlayer tournament={tournament.antalDeltagare} returnPlayer={returnPlayer} players={players}/>}
-
-            {/*Kollar om alla spelare är inmatade och visar tabellen med spelare*/}
-            {(players != null && tournament != null && players.length == tournament.antalDeltagare) && <Table tournament={tournament} matches={matches} players={[...players].sort((a, b) => {
-                
-                //Om spelarna har samma poäng så sorterar den på målskillnad
-                if(b.getPoints() == a.getPoints()){
-                    return b.getGoalDif() - a.getGoalDif();
-                }
-                else{
-                    //sorterar på poäng
-                    return b.getPoints() - a.getPoints();
-                }
-
-            } )}/>}
-
-        </>
-
-    )
+        {tournament != null && <Main tournament={tournament} setPlayers={setPlayers} players={players} matches={matches}/>}
+    </>
+  )
 }
 
-//Validerar mina props
-Body.propTypes ={
-    tournament : PropTypes.object.isRequired,
-    setPlayers : PropTypes.func.isRequired,
-    players : PropTypes.arrayOf(
-        PropTypes.object.isRequired
-    ),
-    matches : PropTypes.array.isRequired
-}
-
-export default Body
+export default Boddy  
